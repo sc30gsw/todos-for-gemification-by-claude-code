@@ -1,103 +1,203 @@
-import Image from "next/image";
+'use client'
+
+import { useState } from 'react'
+import KanbanBoard from '~/components/board/KanbanBoard'
+import DnDProvider from '~/components/dnd/DnDProvider'
+import MainLayout from '~/components/layout/MainLayout'
+import TaskForm from '~/components/task/TaskForm'
+import type { Player, Task, TaskStatus } from '~/types'
+
+const mockPlayer: Player = {
+  id: '1',
+  name: 'Player',
+  currentPoints: 12,
+  totalPoints: 45,
+  level: 2,
+  experience: 150,
+  badges: [
+    {
+      id: '1',
+      name: 'First Task',
+      description: 'Complete your first task',
+      icon: '🎯',
+      unlockedAt: new Date(),
+    },
+  ],
+  stats: {
+    tasksCompleted: 3,
+    diceRolls: 2,
+    totalPointsEarned: 45,
+    highestDiceRoll: 6,
+    streakDays: 1,
+    currentStreak: 1,
+    lastCompletionDate: new Date(),
+  },
+}
+
+const mockTasks: Task[] = [
+  {
+    id: '1',
+    title: 'Design the homepage layout',
+    description: 'Create a modern and responsive homepage design',
+    importance: 'high',
+    urgency: 'medium',
+    status: 'todo',
+    category: 'Design',
+    createdAt: new Date('2024-01-01'),
+    dueDate: new Date('2024-01-15'),
+  },
+  {
+    id: '2',
+    title: 'Fix login bug',
+    description: 'Users are unable to login with Google OAuth',
+    importance: 'high',
+    urgency: 'high',
+    status: 'in_progress',
+    category: 'Bug',
+    createdAt: new Date('2024-01-02'),
+    pointsEarned: 8,
+  },
+  {
+    id: '3',
+    title: 'Write documentation',
+    description: 'Create user guide for the new features',
+    importance: 'medium',
+    urgency: 'low',
+    status: 'done',
+    category: 'Documentation',
+    createdAt: new Date('2024-01-03'),
+    completedAt: new Date('2024-01-05'),
+    pointsEarned: 4,
+  },
+]
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [tasks, setTasks] = useState<Task[]>(mockTasks)
+  const [player, setPlayer] = useState<Player>(mockPlayer)
+  const [isTaskFormOpen, setIsTaskFormOpen] = useState(false)
+  const [editingTask, setEditingTask] = useState<Task | undefined>()
+  const [newTaskStatus, setNewTaskStatus] = useState<TaskStatus>('todo')
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+  const handleAddTask = (status: TaskStatus) => {
+    setNewTaskStatus(status)
+    setEditingTask(undefined)
+    setIsTaskFormOpen(true)
+  }
+
+  const handleEditTask = (task: Task) => {
+    setEditingTask(task)
+    setIsTaskFormOpen(true)
+  }
+
+  const handleDeleteTask = (taskId: string) => {
+    setTasks((prev) => prev.filter((task) => task.id !== taskId))
+  }
+
+  const handleTaskStatusChange = (taskId: string, newStatus: TaskStatus) => {
+    setTasks((prev) =>
+      prev.map((task) => {
+        if (task.id === taskId) {
+          const updatedTask = { ...task, status: newStatus }
+
+          if (newStatus === 'done' && task.status !== 'done') {
+            const basePoints = Math.floor(Math.random() * 3) + 1
+            const multiplier =
+              task.importance === 'high'
+                ? 2
+                : task.importance === 'medium'
+                  ? 1.5
+                  : 1
+            const finalPoints = Math.floor(basePoints * multiplier)
+
+            updatedTask.pointsEarned = finalPoints
+            updatedTask.completedAt = new Date()
+
+            setPlayer((prev) => ({
+              ...prev,
+              currentPoints: prev.currentPoints + finalPoints,
+              totalPoints: prev.totalPoints + finalPoints,
+              experience: prev.experience + finalPoints * 10,
+              stats: {
+                ...prev.stats,
+                tasksCompleted: prev.stats.tasksCompleted + 1,
+                totalPointsEarned: prev.stats.totalPointsEarned + finalPoints,
+              },
+            }))
+          }
+
+          return updatedTask
+        }
+        return task
+      }),
+    )
+  }
+
+  const handleSaveTask = (
+    taskData: Omit<Task, 'id' | 'createdAt' | 'completedAt' | 'pointsEarned'>,
+  ) => {
+    if (editingTask) {
+      setTasks((prev) =>
+        prev.map((task) =>
+          task.id === editingTask.id ? { ...task, ...taskData } : task,
+        ),
+      )
+    } else {
+      const newTask: Task = {
+        ...taskData,
+        id: Date.now().toString(),
+        createdAt: new Date(),
+        status: newTaskStatus,
+      }
+      setTasks((prev) => [...prev, newTask])
+    }
+    setIsTaskFormOpen(false)
+    setEditingTask(undefined)
+  }
+
+  const handleDiceRoll = () => {
+    if (player.currentPoints >= 5) {
+      const baseRoll = Math.floor(Math.random() * 6) + 1
+      const urgencyBonus = 0
+      const finalResult = baseRoll + urgencyBonus
+      const experience = finalResult * 5
+
+      setPlayer((prev) => ({
+        ...prev,
+        currentPoints: prev.currentPoints - 5,
+        experience: prev.experience + experience,
+        stats: {
+          ...prev.stats,
+          diceRolls: prev.stats.diceRolls + 1,
+          highestDiceRoll: Math.max(prev.stats.highestDiceRoll, finalResult),
+        },
+      }))
+
+      alert(`🎲 You rolled a ${finalResult}! Gained ${experience} XP!`)
+    }
+  }
+
+  return (
+    <DnDProvider>
+      <MainLayout player={player} onDiceRoll={handleDiceRoll}>
+        <KanbanBoard
+          tasks={tasks}
+          onTaskEdit={handleEditTask}
+          onTaskDelete={handleDeleteTask}
+          onTaskStatusChange={handleTaskStatusChange}
+          onAddTask={handleAddTask}
+        />
+
+        <TaskForm
+          task={editingTask}
+          initialStatus={newTaskStatus}
+          onSave={handleSaveTask}
+          onCancel={() => {
+            setIsTaskFormOpen(false)
+            setEditingTask(undefined)
+          }}
+          isOpen={isTaskFormOpen}
+        />
+      </MainLayout>
+    </DnDProvider>
+  )
 }
