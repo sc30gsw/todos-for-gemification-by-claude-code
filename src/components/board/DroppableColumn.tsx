@@ -45,7 +45,7 @@ export default function DroppableColumn({
       : 'border-gray-200'
 
   return (
-    <div ref={drop as any} className="flex flex-col min-h-0">
+    <div ref={(node) => { drop(node) }} className="flex flex-col min-h-0">
       {/* Column Header */}
       <motion.div
         className={`${className.replace(/border-\w+-\d+/g, '')} ${borderColor} border-2 rounded-t-lg p-3 lg:p-4 flex-shrink-0`}

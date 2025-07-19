@@ -22,8 +22,6 @@ interface StatisticsPageProps {
   tasks: Task[]
 }
 
-const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444']
-
 export default function StatisticsPage({ player, tasks }: StatisticsPageProps) {
   // Task status distribution
   const statusData = [

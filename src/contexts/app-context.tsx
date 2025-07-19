@@ -4,10 +4,9 @@ import {
   createContext,
   type ReactNode,
   useContext,
-  useEffect,
   useReducer,
 } from 'react'
-import type { DiceRoll, Player, PointCalculation, Task } from '~/types'
+import type { DiceRoll, Player, Task } from '~/types'
 
 interface AppState {
   tasks: Task[]
@@ -25,7 +24,7 @@ type AppAction =
   | { type: 'DELETE_TASK'; payload: string }
   | {
       type: 'COMPLETE_TASK'
-      payload: { taskId: string; pointCalculation: PointCalculation }
+      payload: { taskId: string }
     }
   | { type: 'ROLL_DICE'; payload: DiceRoll }
   | { type: 'UPDATE_PLAYER'; payload: Partial<Player> }
@@ -90,16 +89,27 @@ function appReducer(state: AppState, action: AppAction): AppState {
       }
 
     case 'COMPLETE_TASK': {
-      const { taskId, pointCalculation } = action.payload
-      const updatedTasks = state.tasks.map((task) =>
-        task.id === taskId
+      const { taskId } = action.payload
+      const task = state.tasks.find(t => t.id === taskId)
+      
+      if (!task || task.status === 'done') {
+        return state
+      }
+      
+      const basePoints = Math.floor(Math.random() * 3) + 1
+      const multiplier =
+        task.importance === 'low' ? 1 : task.importance === 'medium' ? 1.5 : 2
+      const finalPoints = Math.floor(basePoints * multiplier)
+      
+      const updatedTasks = state.tasks.map((t) =>
+        t.id === taskId
           ? {
-              ...task,
+              ...t,
               status: 'done' as const,
               completedAt: new Date(),
-              pointsEarned: pointCalculation.finalPoints,
+              pointsEarned: finalPoints,
             }
-          : task,
+          : t,
       )
 
       return {
@@ -107,15 +117,12 @@ function appReducer(state: AppState, action: AppAction): AppState {
         tasks: updatedTasks,
         player: {
           ...state.player,
-          currentPoints:
-            state.player.currentPoints + pointCalculation.finalPoints,
-          totalPoints: state.player.totalPoints + pointCalculation.finalPoints,
+          currentPoints: state.player.currentPoints + finalPoints,
+          totalPoints: state.player.totalPoints + finalPoints,
           stats: {
             ...state.player.stats,
             tasksCompleted: state.player.stats.tasksCompleted + 1,
-            totalPointsEarned:
-              state.player.stats.totalPointsEarned +
-              pointCalculation.finalPoints,
+            totalPointsEarned: state.player.stats.totalPointsEarned + finalPoints,
           },
         },
       }
@@ -186,24 +193,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
     },
 
     completeTask: (taskId) => {
-      const task = state.tasks.find((t) => t.id === taskId)
-      if (!task || task.status === 'done') return
-
-      const basePoints = Math.floor(Math.random() * 3) + 1
-      const multiplier =
-        task.importance === 'low' ? 1 : task.importance === 'medium' ? 1.5 : 2
-      const finalPoints = Math.floor(basePoints * multiplier)
-
-      const pointCalculation: PointCalculation = {
-        basePoints,
-        importanceMultiplier: multiplier,
-        finalPoints,
-        importance: task.importance,
-      }
-
       dispatch({
         type: 'COMPLETE_TASK',
-        payload: { taskId, pointCalculation },
+        payload: { taskId },
       })
     },
 
