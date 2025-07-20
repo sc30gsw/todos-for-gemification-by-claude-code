@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import type { Badge } from '~/types'
 
-interface AchievementNotificationProps {
+type AchievementNotificationProps = {
   badge: Badge | null
   isVisible: boolean
   onClose?: () => void

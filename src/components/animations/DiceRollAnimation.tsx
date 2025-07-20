@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
-interface DiceRollAnimationProps {
+type DiceRollAnimationProps = {
   finalResult: number
   isRolling: boolean
   onComplete?: () => void

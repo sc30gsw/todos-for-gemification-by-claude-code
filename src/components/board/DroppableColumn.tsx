@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import type { TaskStatus } from '~/types'
 import { ItemTypes } from '../task/DraggableTaskCard'
 
-interface DroppableColumnProps {
+type DroppableColumnProps = {
   status: TaskStatus
   children: React.ReactNode
   onDrop: (taskId: string, newStatus: TaskStatus) => void

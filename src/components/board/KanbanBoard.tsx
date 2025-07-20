@@ -2,7 +2,7 @@ import DraggableTaskCard from '~/components/task/DraggableTaskCard'
 import type { Task, TaskStatus } from '~/types'
 import DroppableColumn from './DroppableColumn'
 
-interface KanbanBoardProps {
+type KanbanBoardProps = {
   tasks: Task[]
   onTaskEdit?: (task: Task) => void
   onTaskDelete?: (taskId: string) => void

@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import type { Badge } from '~/types'
 
-interface BadgeDisplayProps {
+type BadgeDisplayProps = {
   badges: Badge[]
   maxDisplay?: number
   size?: 'sm' | 'md' | 'lg'

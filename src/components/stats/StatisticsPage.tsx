@@ -17,7 +17,7 @@ import {
 } from 'recharts'
 import type { Player, Task } from '~/types'
 
-interface StatisticsPageProps {
+type StatisticsPageProps = {
   player: Player
   tasks: Task[]
 }

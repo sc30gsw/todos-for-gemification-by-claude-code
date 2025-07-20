@@ -2,7 +2,7 @@
 
 import type { Task, TaskImportance, TaskUrgency } from '~/types'
 
-interface TaskCardProps {
+type TaskCardProps = {
   task: Task
   onEdit?: (task: Task) => void
   onDelete?: (taskId: string) => void

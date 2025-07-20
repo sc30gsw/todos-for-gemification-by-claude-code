@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 
-interface ViewTabsProps {
+type ViewTabsProps = {
   currentView: 'tasks' | 'stats'
   onViewChange: (view: 'tasks' | 'stats') => void
 }

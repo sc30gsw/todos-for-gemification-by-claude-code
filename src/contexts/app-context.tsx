@@ -9,7 +9,7 @@ import {
 import { calculateTaskPoints } from '~/lib/utils'
 import type { DiceRoll, Player, Task } from '~/types'
 
-interface AppState {
+type AppState = {
   tasks: Task[]
   player: Player
   isLoading: boolean
@@ -155,7 +155,7 @@ function appReducer(state: AppState, action: AppAction): AppState {
   }
 }
 
-interface AppContextType {
+type AppContextType = {
   state: AppState
   actions: {
     addTask: (task: Omit<Task, 'id' | 'createdAt'>) => void
