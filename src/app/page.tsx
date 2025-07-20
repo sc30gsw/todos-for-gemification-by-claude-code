@@ -5,6 +5,7 @@ import KanbanBoard from '~/components/board/KanbanBoard'
 import DnDProvider from '~/components/dnd/DnDProvider'
 import MainLayout from '~/components/layout/MainLayout'
 import TaskForm from '~/components/task/TaskForm'
+import { calculateTaskPoints } from '~/lib/utils'
 import type { Player, Task, TaskStatus } from '~/types'
 
 const mockPlayer: Player = {
@@ -101,14 +102,7 @@ export default function Home() {
     let finalPoints = 0
 
     if (shouldCompleteTask) {
-      const basePoints = Math.floor(Math.random() * 3) + 1
-      const multiplier =
-        currentTask.importance === 'high'
-          ? 2
-          : currentTask.importance === 'medium'
-            ? 1.5
-            : 1
-      finalPoints = Math.floor(basePoints * multiplier)
+      finalPoints = calculateTaskPoints(currentTask.importance)
     }
 
     setTasks((prev) =>

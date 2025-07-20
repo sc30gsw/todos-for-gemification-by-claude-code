@@ -1,5 +1,6 @@
 import type {
   Player,
+  TaskImportance,
   TaskStatus,
 } from '~/types'
 
@@ -72,4 +73,15 @@ export const generateRandomId = (prefix = '', length = 8): string => {
     result += characters.charAt(Math.floor(Math.random() * characters.length))
   }
   return result
+}
+
+export const calculateTaskPoints = (importance: TaskImportance): number => {
+  const basePoints = Math.floor(Math.random() * 3) + 1
+  const multiplier =
+    importance === 'high'
+      ? 2
+      : importance === 'medium'
+        ? 1.5
+        : 1
+  return Math.floor(basePoints * multiplier)
 }

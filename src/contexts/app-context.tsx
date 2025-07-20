@@ -6,6 +6,7 @@ import {
   useContext,
   useReducer,
 } from 'react'
+import { calculateTaskPoints } from '~/lib/utils'
 import type { DiceRoll, Player, Task } from '~/types'
 
 interface AppState {
@@ -96,10 +97,7 @@ function appReducer(state: AppState, action: AppAction): AppState {
         return state
       }
       
-      const basePoints = Math.floor(Math.random() * 3) + 1
-      const multiplier =
-        task.importance === 'low' ? 1 : task.importance === 'medium' ? 1.5 : 2
-      const finalPoints = Math.floor(basePoints * multiplier)
+      const finalPoints = calculateTaskPoints(task.importance)
       
       const updatedTasks = state.tasks.map((t) =>
         t.id === taskId
