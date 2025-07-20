@@ -1,7 +1,6 @@
-import { useLingui } from '@lingui/react'
-import { Trans } from '@lingui/react/macro'
-import { msg } from '@lingui/core/macro'
+import { Trans, useLingui } from '@lingui/react/macro'
 import { useEffect, useState } from 'react'
+import { useTheme } from '~/contexts/theme-context'
 import type { Task, TaskImportance, TaskStatus, TaskUrgency } from '~/types'
 
 type TaskFormProps = {
@@ -14,22 +13,7 @@ type TaskFormProps = {
   isOpen: boolean
 }
 
-const IMPORTANCE_OPTIONS: {
-  value: TaskImportance
-  label: string
-  color: string
-}[] = [
-  { value: 'low', label: 'Low', color: 'text-green-600' },
-  { value: 'medium', label: 'Medium', color: 'text-yellow-600' },
-  { value: 'high', label: 'High', color: 'text-red-600' },
-]
-
-const URGENCY_OPTIONS: { value: TaskUrgency; label: string; color: string }[] =
-  [
-    { value: 'low', label: 'Low', color: 'text-blue-600' },
-    { value: 'medium', label: 'Medium', color: 'text-orange-600' },
-    { value: 'high', label: 'High', color: 'text-purple-600' },
-  ]
+// These will be translated dynamically in the component
 
 export default function TaskForm({
   task,
@@ -38,7 +22,64 @@ export default function TaskForm({
   onCancel,
   isOpen,
 }: TaskFormProps) {
-  const { _ } = useLingui()
+  const { t } = useLingui()
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
+
+  // Color mappings for priority preview
+  const getImportanceColor = (importance: TaskImportance) => {
+    switch (importance) {
+      case 'low':
+        return 'text-green-600'
+      case 'medium':
+        return 'text-yellow-600'
+      case 'high':
+        return 'text-red-600'
+      default:
+        return 'text-gray-600'
+    }
+  }
+
+  const getUrgencyColor = (urgency: TaskUrgency) => {
+    switch (urgency) {
+      case 'low':
+        return 'text-blue-600'
+      case 'medium':
+        return 'text-orange-600'
+      case 'high':
+        return 'text-purple-600'
+      default:
+        return 'text-gray-600'
+    }
+  }
+
+  // Translation functions for dynamic values
+  const getImportanceLabel = (importance: TaskImportance) => {
+    switch (importance) {
+      case 'low':
+        return t`Low`
+      case 'medium':
+        return t`Medium`
+      case 'high':
+        return t`High`
+      default:
+        return importance
+    }
+  }
+
+  const getUrgencyLabel = (urgency: TaskUrgency) => {
+    switch (urgency) {
+      case 'low':
+        return t`Low`
+      case 'medium':
+        return t`Medium`
+      case 'high':
+        return t`High`
+      default:
+        urgency
+    }
+  }
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -124,16 +165,26 @@ export default function TaskForm({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-96 overflow-y-auto">
+      <div
+        className={`rounded-lg shadow-xl max-w-md w-full max-h-96 overflow-y-auto ${
+          isDark ? 'bg-gray-800' : 'bg-white'
+        }`}
+      >
         <div className="p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-gray-900">
+            <h2
+              className={`text-xl font-semibold ${
+                isDark ? 'text-white' : 'text-zinc-900'
+              }`}
+            >
               {task ? <Trans>Edit Task</Trans> : <Trans>Create New Task</Trans>}
             </h2>
             <button
               type="button"
               onClick={onCancel}
-              className="text-zinc-900 hover:text-gray-600 text-xl"
+              className={`text-xl hover:opacity-70 transition-opacity ${
+                isDark ? 'text-gray-300' : 'text-zinc-600'
+              }`}
             >
               ×
             </button>
@@ -142,17 +193,29 @@ export default function TaskForm({
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Title */}
             <div>
-              <p className="block text-sm font-medium text-zinc-950 mb-1">
+              <p
+                className={`block text-sm font-medium mb-1 ${
+                  isDark ? 'text-gray-200' : 'text-zinc-800'
+                }`}
+              >
                 <Trans>Title *</Trans>
               </p>
               <input
                 type="text"
                 value={formData.title}
                 onChange={(e) => handleChange('title', e.target.value)}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 ${
-                  errors.title ? 'border-red-300' : 'border-gray-300'
+                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  isDark
+                    ? 'text-gray-100 bg-gray-700 border-gray-600'
+                    : 'text-zinc-900 bg-white border-gray-300'
+                } ${
+                  errors.title
+                    ? isDark
+                      ? 'border-red-500'
+                      : 'border-red-300'
+                    : ''
                 }`}
-                placeholder={_(msg`Enter task title...`)}
+                placeholder={t`Enter task title...`}
                 maxLength={100}
               />
               {errors.title && (
@@ -162,16 +225,28 @@ export default function TaskForm({
 
             {/* Description */}
             <div>
-              <p className="block text-sm font-medium text-zinc-950 mb-1">
-                Description
+              <p
+                className={`block text-sm font-medium mb-1 ${
+                  isDark ? 'text-gray-200' : 'text-zinc-800'
+                }`}
+              >
+                <Trans>Description</Trans>
               </p>
               <textarea
                 value={formData.description}
                 onChange={(e) => handleChange('description', e.target.value)}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none text-gray-900 ${
-                  errors.description ? 'border-red-300' : 'border-gray-300'
+                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none ${
+                  isDark
+                    ? 'text-gray-100 bg-gray-700 border-gray-600'
+                    : 'text-zinc-900 bg-white border-gray-300'
+                } ${
+                  errors.description
+                    ? isDark
+                      ? 'border-red-500'
+                      : 'border-red-300'
+                    : ''
                 }`}
-                placeholder="Enter task description..."
+                placeholder={t`Enter task description...`}
                 rows={3}
                 maxLength={500}
               />
@@ -180,7 +255,11 @@ export default function TaskForm({
                   {errors.description}
                 </p>
               )}
-              <p className="text-xs text-gray-700 mt-1">
+              <p
+                className={`text-xs mt-1 ${
+                  isDark ? 'text-gray-400' : 'text-zinc-600'
+                }`}
+              >
                 {formData.description.length}/500
               </p>
             </div>
@@ -189,37 +268,49 @@ export default function TaskForm({
             <div className="grid grid-cols-2 gap-4">
               {/* Importance */}
               <div>
-                <p className="block text-sm font-medium text-zinc-950 mb-1">
-                  Importance
+                <p
+                  className={`block text-sm font-medium mb-1 ${
+                    isDark ? 'text-gray-200' : 'text-zinc-800'
+                  }`}
+                >
+                  <Trans>Importance</Trans>
                 </p>
                 <select
                   value={formData.importance}
                   onChange={(e) => handleChange('importance', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                    isDark
+                      ? 'border-gray-600 text-gray-100 bg-gray-700'
+                      : 'border-gray-300 text-zinc-900 bg-white'
+                  }`}
                 >
-                  {IMPORTANCE_OPTIONS.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
+                  <option value="low">{t`Low`}</option>
+                  <option value="medium">{t`Medium`}</option>
+                  <option value="high">{t`High`}</option>
                 </select>
               </div>
 
               {/* Urgency */}
               <div>
-                <p className="block text-sm font-medium text-zinc-950 mb-1">
-                  Urgency
+                <p
+                  className={`block text-sm font-medium mb-1 ${
+                    isDark ? 'text-gray-200' : 'text-zinc-800'
+                  }`}
+                >
+                  <Trans>Urgency</Trans>
                 </p>
                 <select
                   value={formData.urgency}
                   onChange={(e) => handleChange('urgency', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                    isDark
+                      ? 'border-gray-600 text-gray-100 bg-gray-700'
+                      : 'border-gray-300 text-zinc-900 bg-white'
+                  }`}
                 >
-                  {URGENCY_OPTIONS.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
+                  <option value="low">{t`Low`}</option>
+                  <option value="medium">{t`Medium`}</option>
+                  <option value="high">{t`High`}</option>
                 </select>
               </div>
             </div>
@@ -227,45 +318,75 @@ export default function TaskForm({
             {/* Category and Due Date */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="block text-sm font-medium text-zinc-950 mb-1">
-                  Category
+                <p
+                  className={`block text-sm font-medium mb-1 ${
+                    isDark ? 'text-gray-200' : 'text-zinc-800'
+                  }`}
+                >
+                  <Trans>Category</Trans>
                 </p>
                 <input
                   type="text"
                   value={formData.category}
                   onChange={(e) => handleChange('category', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
-                  placeholder="e.g. Work, Personal"
+                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                    isDark
+                      ? 'border-gray-600 text-gray-100 bg-gray-700'
+                      : 'border-gray-300 text-zinc-900 bg-white'
+                  }`}
+                  placeholder={t`e.g. Work, Personal`}
                 />
               </div>
 
               <div>
-                <p className="block text-sm font-medium text-zinc-950 mb-1">
-                  Due Date
+                <p
+                  className={`block text-sm font-medium mb-1 ${
+                    isDark ? 'text-gray-200' : 'text-zinc-800'
+                  }`}
+                >
+                  <Trans>Due Date</Trans>
                 </p>
                 <input
                   type="date"
                   value={formData.dueDate}
                   onChange={(e) => handleChange('dueDate', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                    isDark
+                      ? 'border-gray-600 text-gray-100 bg-gray-700'
+                      : 'border-gray-300 text-zinc-900 bg-white'
+                  }`}
                 />
               </div>
             </div>
 
             {/* Priority Preview */}
-            <div className="bg-gray-50 p-3 rounded-lg">
-              <p className="text-sm text-gray-800 mb-2">Priority Preview:</p>
+            <div
+              className={`p-3 rounded-lg ${
+                isDark ? 'bg-gray-700' : 'bg-gray-50'
+              }`}
+            >
+              <p
+                className={`text-sm mb-2 ${
+                  isDark ? 'text-gray-200' : 'text-zinc-700'
+                }`}
+              >
+                <Trans>Priority Preview:</Trans>
+              </p>
               <div className="flex items-center space-x-2">
                 <span
-                  className={`font-medium ${IMPORTANCE_OPTIONS.find((o) => o.value === formData.importance)?.color}`}
+                  className={`font-medium ${getImportanceColor(formData.importance)}`}
                 >
-                  Importance: {formData.importance}
+                  <Trans>
+                    Importance: {getImportanceLabel(formData.importance)}
+                  </Trans>
                 </span>
-                <span className="text-zinc-900">×</span>
+                <span className={isDark ? 'text-gray-300' : 'text-zinc-700'}>
+                  ×
+                </span>
                 <span
-                  className={`font-medium ${URGENCY_OPTIONS.find((o) => o.value === formData.urgency)?.color}`}
+                  className={`font-medium ${getUrgencyColor(formData.urgency)}`}
                 >
-                  Urgency: {formData.urgency}
+                  <Trans>Urgency: {getUrgencyLabel(formData.urgency)}</Trans>
                 </span>
               </div>
             </div>
@@ -275,7 +396,11 @@ export default function TaskForm({
               <button
                 type="button"
                 onClick={onCancel}
-                className="flex-1 px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors"
+                className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
+                  isDark
+                    ? 'text-gray-300 bg-gray-600 hover:bg-gray-500'
+                    : 'text-zinc-700 bg-gray-200 hover:bg-gray-300'
+                }`}
               >
                 <Trans>Cancel</Trans>
               </button>

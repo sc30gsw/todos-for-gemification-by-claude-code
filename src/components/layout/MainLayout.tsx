@@ -1,6 +1,5 @@
-'use client'
-
 import type { ReactNode } from 'react'
+import { useTheme } from '~/contexts/theme-context'
 import type { Player } from '~/types'
 import Header from './Header'
 import Sidebar from './Sidebar'
@@ -17,9 +16,14 @@ export default function MainLayout({
   onDiceRoll,
 }: MainLayoutProps) {
   const canRollDice = player.currentPoints >= 5
+  const { resolvedTheme } = useTheme()
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div
+      className={`min-h-screen flex flex-col ${
+        resolvedTheme === 'dark' ? 'bg-gray-900' : 'bg-gray-100'
+      }`}
+    >
       <Header
         playerName={player.name}
         currentPoints={player.currentPoints}
@@ -33,7 +37,11 @@ export default function MainLayout({
           canRollDice={canRollDice}
         />
 
-        <main className="flex-1 p-4 lg:p-6 min-h-0 overflow-auto">
+        <main
+          className={`flex-1 p-4 lg:p-6 min-h-0 overflow-auto ${
+            resolvedTheme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'
+          }`}
+        >
           {children}
         </main>
       </div>

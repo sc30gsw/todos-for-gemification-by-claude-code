@@ -46,9 +46,21 @@ export function LinguiProvider({ children, initialLocale }: I18nProviderProps) {
   const [isInitialized, setIsInitialized] = useState(false)
 
   const setLocale = useCallback(async (newLocale: Locale) => {
-    if (locales.includes(newLocale)) {
-      await activateLocale(newLocale)
-      setLocaleState(newLocale)
+    try {
+      if (locales.includes(newLocale)) {
+        await activateLocale(newLocale)
+        setLocaleState(newLocale)
+      } else {
+        console.warn(
+          `Unsupported locale: ${newLocale}. Falling back to ${defaultLocale}.`,
+        )
+        await activateLocale(defaultLocale)
+        setLocaleState(defaultLocale)
+      }
+    } catch (error) {
+      console.error(`Failed to set locale to ${newLocale}:`, error)
+      await activateLocale(defaultLocale)
+      setLocaleState(defaultLocale)
     }
   }, [])
 
@@ -70,14 +82,18 @@ export function LinguiProvider({ children, initialLocale }: I18nProviderProps) {
     initializeI18n()
   }, [initialLocale])
 
-  const contextValue: I18nContextType = {
+  const contextValue = {
     locale,
     setLocale,
     locales,
-  }
+  } as const satisfies I18nContextType
 
   if (!isInitialized) {
-    return <div>Loading...</div>
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-lg">Loading translations...</div>
+      </div>
+    )
   }
 
   return (

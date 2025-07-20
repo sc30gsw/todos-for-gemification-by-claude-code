@@ -13,34 +13,277 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/task/TaskForm.tsx:279
+#. placeholder {0}: player.stats.currentStreak
+#: src/components/stats/StatisticsPage.tsx:312
+msgid "{0} days"
+msgstr "{0} days"
+
+#: src/components/board/DroppableColumn.tsx:68
+msgid "{title}"
+msgstr "{title}"
+
+#: src/components/task/TaskCard.tsx:162
+msgid "← Todo"
+msgstr "← Todo"
+
+#: src/components/board/DroppableColumn.tsx:93
+msgid "+ Add task"
+msgstr "+ Add task"
+
+#. placeholder {0}: player.badges.length - 3
+#: src/components/layout/Sidebar.tsx:132
+msgid "+{0} more badges"
+msgstr "+{0} more badges"
+
+#: src/components/layout/Sidebar.tsx:71
+msgid "🎲 Lucky Dice"
+msgstr "🎲 Lucky Dice"
+
+#: src/components/layout/Sidebar.tsx:98
+msgid "🏆 Badges"
+msgstr "🏆 Badges"
+
+#: src/components/stats/StatisticsPage.tsx:92
+msgid "📊 Statistics"
+msgstr "📊 Statistics"
+
+#: src/components/stats/StatisticsPage.tsx:171
+msgid "Avg Points/Task"
+msgstr "Avg Points/Task"
+
+#: src/components/task/TaskForm.tsx:277
 msgid "Cancel"
 msgstr "Cancel"
 
-#: src/components/task/TaskForm.tsx:130
+#: src/components/task/TaskForm.tsx:230
+msgid "Category"
+msgstr "Category"
+
+#: src/components/layout/Sidebar.tsx:124
+msgid "Complete tasks to unlock!"
+msgstr "Complete tasks to unlock!"
+
+#: src/components/stats/StatisticsPage.tsx:129
+#: src/components/board/KanbanBoard.tsx:136
+msgid "Completed"
+msgstr "Completed"
+
+#: src/components/layout/Sidebar.tsx:77
+msgid "Cost: 5 Points"
+msgstr "Cost: 5 Points"
+
+#: src/components/task/TaskForm.tsx:134
 msgid "Create New Task"
 msgstr "Create New Task"
 
-#: src/components/task/TaskForm.tsx:285
+#: src/components/task/TaskForm.tsx:283
 msgid "Create Task"
 msgstr "Create Task"
 
-#: src/components/task/TaskForm.tsx:130
+#: src/components/stats/StatisticsPage.tsx:293
+msgid "Current Level"
+msgstr "Current Level"
+
+#: src/components/stats/StatisticsPage.tsx:309
+msgid "Current Streak"
+msgstr "Current Streak"
+
+#: src/components/task/TaskForm.tsx:169
+msgid "Description"
+msgstr "Description"
+
+#: src/components/stats/StatisticsPage.tsx:300
+#: src/components/layout/Sidebar.tsx:61
+msgid "Dice Rolls"
+msgstr "Dice Rolls"
+
+#: src/components/task/TaskCard.tsx:182
+msgid "Done ✓"
+msgstr "Done ✓"
+
+#: src/components/board/DroppableColumn.tsx:117
+msgid "Drop task here"
+msgstr "Drop task here"
+
+#: src/components/task/TaskForm.tsx:243
+msgid "Due Date"
+msgstr "Due Date"
+
+#: src/components/task/TaskForm.tsx:237
+msgid "e.g. Work, Personal"
+msgstr "e.g. Work, Personal"
+
+#: src/components/task/TaskForm.tsx:134
 msgid "Edit Task"
 msgstr "Edit Task"
 
-#: src/components/layout/Header.tsx:40
+#: src/components/task/TaskForm.tsx:177
+msgid "Enter task description..."
+msgstr "Enter task description..."
+
+#: src/components/task/TaskForm.tsx:158
+msgid "Enter task title..."
+msgstr "Enter task title..."
+
+#: src/components/layout/Sidebar.tsx:33
+msgid "Experience"
+msgstr "Experience"
+
+#: src/components/stats/StatisticsPage.tsx:72
+msgid "Fri"
+msgstr "Fri"
+
+#: src/components/task/TaskForm.tsx:205
+#: src/components/task/TaskForm.tsx:221
+#: src/components/stats/StatisticsPage.tsx:60
+msgid "High"
+msgstr "High"
+
+#: src/components/task/TaskForm.tsx:196
+msgid "Importance"
+msgstr "Importance"
+
+#. placeholder {0}: formData.importance
+#: src/components/task/TaskForm.tsx:261
+msgid "Importance: {0}"
+msgstr "Importance: {0}"
+
+#: src/components/task/TaskCard.tsx:172
+#: src/components/board/KanbanBoard.tsx:128
+msgid "In Progress"
+msgstr "In Progress"
+
+#: src/components/layout/Header.tsx:42
 msgid "Level:"
 msgstr "Level:"
 
-#: src/components/layout/Header.tsx:31
+#: src/components/task/TaskForm.tsx:203
+#: src/components/task/TaskForm.tsx:219
+#: src/components/stats/StatisticsPage.tsx:50
+msgid "Low"
+msgstr "Low"
+
+#: src/components/board/KanbanBoard.tsx:62
+msgid "Manage your tasks and earn points!"
+msgstr "Manage your tasks and earn points!"
+
+#: src/components/task/TaskForm.tsx:204
+#: src/components/task/TaskForm.tsx:220
+#: src/components/stats/StatisticsPage.tsx:55
+msgid "Medium"
+msgstr "Medium"
+
+#: src/components/stats/StatisticsPage.tsx:68
+msgid "Mon"
+msgstr "Mon"
+
+#: src/components/layout/Sidebar.tsx:90
+msgid "Need 5 Points"
+msgstr "Need 5 Points"
+
+#: src/components/layout/Sidebar.tsx:122
+msgid "No badges yet"
+msgstr "No badges yet"
+
+#: src/components/board/KanbanBoard.tsx:103
+msgid "No completed tasks yet"
+msgstr "No completed tasks yet"
+
+#: src/components/board/KanbanBoard.tsx:101
+msgid "No pending tasks"
+msgstr "No pending tasks"
+
+#: src/components/board/KanbanBoard.tsx:102
+msgid "No tasks in progress"
+msgstr "No tasks in progress"
+
+#: src/components/stats/StatisticsPage.tsx:287
+msgid "Player Progress"
+msgstr "Player Progress"
+
+#: src/components/layout/Sidebar.tsx:26
+msgid "Player Stats"
+msgstr "Player Stats"
+
+#: src/components/layout/Header.tsx:33
 msgid "Points:"
 msgstr "Points:"
 
-#: src/components/task/TaskForm.tsx:145
+#: src/components/stats/StatisticsPage.tsx:227
+msgid "Priority Distribution"
+msgstr "Priority Distribution"
+
+#: src/components/task/TaskForm.tsx:257
+msgid "Priority Preview:"
+msgstr "Priority Preview:"
+
+#: src/components/layout/Sidebar.tsx:90
+msgid "Roll Dice!"
+msgstr "Roll Dice!"
+
+#: src/components/stats/StatisticsPage.tsx:73
+msgid "Sat"
+msgstr "Sat"
+
+#: src/components/stats/StatisticsPage.tsx:74
+msgid "Sun"
+msgstr "Sun"
+
+#: src/components/board/KanbanBoard.tsx:59
+msgid "Task Board"
+msgstr "Task Board"
+
+#: src/components/stats/StatisticsPage.tsx:194
+msgid "Task Status"
+msgstr "Task Status"
+
+#: src/components/layout/Sidebar.tsx:53
+msgid "Tasks Done"
+msgstr "Tasks Done"
+
+#: src/components/stats/StatisticsPage.tsx:71
+msgid "Thu"
+msgstr "Thu"
+
+#: src/components/task/TaskForm.tsx:149
 msgid "Title *"
 msgstr "Title *"
 
-#: src/components/task/TaskForm.tsx:285
+#: src/components/stats/StatisticsPage.tsx:150
+#: src/components/board/KanbanBoard.tsx:144
+msgid "Total Points"
+msgstr "Total Points"
+
+#: src/components/stats/StatisticsPage.tsx:110
+#: src/components/board/KanbanBoard.tsx:120
+msgid "Total Tasks"
+msgstr "Total Tasks"
+
+#: src/components/stats/StatisticsPage.tsx:95
+msgid "Track your productivity and achievements"
+msgstr "Track your productivity and achievements"
+
+#: src/components/stats/StatisticsPage.tsx:69
+msgid "Tue"
+msgstr "Tue"
+
+#: src/components/task/TaskForm.tsx:283
 msgid "Update Task"
 msgstr "Update Task"
+
+#: src/components/task/TaskForm.tsx:212
+msgid "Urgency"
+msgstr "Urgency"
+
+#. placeholder {0}: formData.urgency
+#: src/components/task/TaskForm.tsx:265
+msgid "Urgency: {0}"
+msgstr "Urgency: {0}"
+
+#: src/components/stats/StatisticsPage.tsx:70
+msgid "Wed"
+msgstr "Wed"
+
+#: src/components/stats/StatisticsPage.tsx:252
+msgid "Weekly Progress"
+msgstr "Weekly Progress"

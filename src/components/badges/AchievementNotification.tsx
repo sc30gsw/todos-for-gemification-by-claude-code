@@ -90,7 +90,7 @@ export default function AchievementNotification({
           {/* Sparkle effects */}
           {[...Array(6)].map((_, i) => (
             <motion.div
-              key={i}
+              key={crypto.randomUUID()}
               className="absolute text-yellow-400 text-lg pointer-events-none"
               style={{
                 left: `${20 + i * 15}%`,

@@ -16,8 +16,10 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>('system')
   const [systemTheme, setSystemTheme] = useState<'light' | 'dark'>('light')
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
     const stored = localStorage.getItem('theme') as Theme | null
     if (stored) {
       setTheme(stored)
@@ -25,6 +27,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   useEffect(() => {
+    if (!mounted) return
+    
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
     setSystemTheme(mediaQuery.matches ? 'dark' : 'light')
 
@@ -34,19 +38,30 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     mediaQuery.addEventListener('change', handleChange)
     return () => mediaQuery.removeEventListener('change', handleChange)
-  }, [])
+  }, [mounted])
 
   useEffect(() => {
+    if (!mounted) return
     localStorage.setItem('theme', theme)
-  }, [theme])
+  }, [theme, mounted])
 
   const resolvedTheme = theme === 'system' ? systemTheme : theme
 
-  useEffect(() => {
-    const root = document.documentElement
-    root.classList.remove('light', 'dark')
-    root.classList.add(resolvedTheme)
-  }, [resolvedTheme])
+
+  if (!mounted) {
+    return (
+      <ThemeContext.Provider
+        value={{
+          theme: 'light',
+          setTheme: () => {},
+          systemTheme: 'light',
+          resolvedTheme: 'light',
+        }}
+      >
+        {children}
+      </ThemeContext.Provider>
+    )
+  }
 
   return (
     <ThemeContext.Provider
