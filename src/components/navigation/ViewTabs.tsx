@@ -10,7 +10,7 @@ type ViewTabsProps = {
 export default function ViewTabs({ currentView, onViewChange }: ViewTabsProps) {
   const tabs = [
     { id: 'tasks' as const, label: '📋 Tasks', icon: '📋' },
-    { id: 'stats' as const, label: '📊 Statistics', icon: '📊' }
+    { id: 'stats' as const, label: '📊 Statistics', icon: '📊' },
   ]
 
   return (
@@ -32,7 +32,7 @@ export default function ViewTabs({ currentView, onViewChange }: ViewTabsProps) {
                 layoutId="activeTab"
                 className="absolute inset-0 bg-blue-50 border border-blue-200 rounded-lg"
                 initial={false}
-                transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                transition={{ type: 'spring', stiffness: 500, damping: 30 }}
               />
             )}
             <span className="relative flex items-center justify-center space-x-2">

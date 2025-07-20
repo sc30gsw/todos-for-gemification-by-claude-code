@@ -2,18 +2,18 @@
 
 import { motion } from 'framer-motion'
 import {
-  BarChart,
   Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  LineChart,
-  Line,
 } from 'recharts'
 import type { Player, Task } from '~/types'
 
@@ -25,27 +25,39 @@ type StatisticsPageProps = {
 export default function StatisticsPage({ player, tasks }: StatisticsPageProps) {
   // Task status distribution
   const statusData = [
-    { name: 'Todo', value: tasks.filter(t => t.status === 'todo').length, color: '#6B7280' },
-    { name: 'In Progress', value: tasks.filter(t => t.status === 'in_progress').length, color: '#3B82F6' },
-    { name: 'Done', value: tasks.filter(t => t.status === 'done').length, color: '#10B981' },
+    {
+      name: 'Todo',
+      value: tasks.filter((t) => t.status === 'todo').length,
+      color: '#6B7280',
+    },
+    {
+      name: 'In Progress',
+      value: tasks.filter((t) => t.status === 'in_progress').length,
+      color: '#3B82F6',
+    },
+    {
+      name: 'Done',
+      value: tasks.filter((t) => t.status === 'done').length,
+      color: '#10B981',
+    },
   ]
 
   // Priority distribution
   const priorityData = [
-    { 
-      name: 'Low', 
-      importance: tasks.filter(t => t.importance === 'low').length,
-      urgency: tasks.filter(t => t.urgency === 'low').length 
+    {
+      name: 'Low',
+      importance: tasks.filter((t) => t.importance === 'low').length,
+      urgency: tasks.filter((t) => t.urgency === 'low').length,
     },
-    { 
-      name: 'Medium', 
-      importance: tasks.filter(t => t.importance === 'medium').length,
-      urgency: tasks.filter(t => t.urgency === 'medium').length 
+    {
+      name: 'Medium',
+      importance: tasks.filter((t) => t.importance === 'medium').length,
+      urgency: tasks.filter((t) => t.urgency === 'medium').length,
     },
-    { 
-      name: 'High', 
-      importance: tasks.filter(t => t.importance === 'high').length,
-      urgency: tasks.filter(t => t.urgency === 'high').length 
+    {
+      name: 'High',
+      importance: tasks.filter((t) => t.importance === 'high').length,
+      urgency: tasks.filter((t) => t.urgency === 'high').length,
     },
   ]
 
@@ -60,16 +72,24 @@ export default function StatisticsPage({ player, tasks }: StatisticsPageProps) {
     { name: 'Sun', tasks: 3, points: 11 },
   ]
 
-  const completedTasks = tasks.filter(t => t.status === 'done')
-  const totalPoints = completedTasks.reduce((sum, task) => sum + (task.pointsEarned || 0), 0)
-  const avgPointsPerTask = completedTasks.length > 0 ? (totalPoints / completedTasks.length).toFixed(1) : '0'
+  const completedTasks = tasks.filter((t) => t.status === 'done')
+  const totalPoints = completedTasks.reduce(
+    (sum, task) => sum + (task.pointsEarned || 0),
+    0,
+  )
+  const avgPointsPerTask =
+    completedTasks.length > 0
+      ? (totalPoints / completedTasks.length).toFixed(1)
+      : '0'
 
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">📊 Statistics</h1>
-        <p className="text-gray-800">Track your productivity and achievements</p>
+        <p className="text-gray-800">
+          Track your productivity and achievements
+        </p>
       </div>
 
       {/* Key Metrics */}
@@ -100,7 +120,9 @@ export default function StatisticsPage({ player, tasks }: StatisticsPageProps) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-800">Completed</p>
-              <p className="text-2xl font-bold text-green-600">{completedTasks.length}</p>
+              <p className="text-2xl font-bold text-green-600">
+                {completedTasks.length}
+              </p>
             </div>
             <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
               <span className="text-2xl">✅</span>
@@ -117,7 +139,9 @@ export default function StatisticsPage({ player, tasks }: StatisticsPageProps) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-800">Total Points</p>
-              <p className="text-2xl font-bold text-purple-600">{totalPoints}</p>
+              <p className="text-2xl font-bold text-purple-600">
+                {totalPoints}
+              </p>
             </div>
             <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
               <span className="text-2xl">⭐</span>
@@ -134,7 +158,9 @@ export default function StatisticsPage({ player, tasks }: StatisticsPageProps) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-800">Avg Points/Task</p>
-              <p className="text-2xl font-bold text-orange-600">{avgPointsPerTask}</p>
+              <p className="text-2xl font-bold text-orange-600">
+                {avgPointsPerTask}
+              </p>
             </div>
             <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
               <span className="text-2xl">🎯</span>
@@ -152,7 +178,9 @@ export default function StatisticsPage({ player, tasks }: StatisticsPageProps) {
           transition={{ delay: 0.5 }}
           className="bg-white p-6 rounded-xl shadow-sm border border-gray-200"
         >
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Task Status</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Task Status
+          </h3>
           <ResponsiveContainer width="100%" height={250}>
             <PieChart>
               <Pie
@@ -180,7 +208,9 @@ export default function StatisticsPage({ player, tasks }: StatisticsPageProps) {
           transition={{ delay: 0.6 }}
           className="bg-white p-6 rounded-xl shadow-sm border border-gray-200"
         >
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Priority Distribution</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Priority Distribution
+          </h3>
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={priorityData}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -203,24 +233,26 @@ export default function StatisticsPage({ player, tasks }: StatisticsPageProps) {
           transition={{ delay: 0.7 }}
           className="bg-white p-6 rounded-xl shadow-sm border border-gray-200"
         >
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Weekly Progress</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Weekly Progress
+          </h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={weeklyData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
-              <Line 
-                type="monotone" 
-                dataKey="tasks" 
-                stroke="#3B82F6" 
+              <Line
+                type="monotone"
+                dataKey="tasks"
+                stroke="#3B82F6"
                 strokeWidth={2}
                 name="Tasks Completed"
               />
-              <Line 
-                type="monotone" 
-                dataKey="points" 
-                stroke="#10B981" 
+              <Line
+                type="monotone"
+                dataKey="points"
+                stroke="#10B981"
                 strokeWidth={2}
                 name="Points Earned"
               />
@@ -236,7 +268,9 @@ export default function StatisticsPage({ player, tasks }: StatisticsPageProps) {
         transition={{ delay: 0.8 }}
         className="bg-white p-6 rounded-xl shadow-sm border border-gray-200"
       >
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Player Progress</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          Player Progress
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center">
             <div className="text-3xl mb-2">🏆</div>
@@ -246,12 +280,16 @@ export default function StatisticsPage({ player, tasks }: StatisticsPageProps) {
           <div className="text-center">
             <div className="text-3xl mb-2">🎲</div>
             <p className="text-sm text-gray-800">Dice Rolls</p>
-            <p className="text-2xl font-bold text-gray-900">{player.stats.diceRolls}</p>
+            <p className="text-2xl font-bold text-gray-900">
+              {player.stats.diceRolls}
+            </p>
           </div>
           <div className="text-center">
             <div className="text-3xl mb-2">🔥</div>
             <p className="text-sm text-gray-800">Current Streak</p>
-            <p className="text-2xl font-bold text-gray-900">{player.stats.currentStreak} days</p>
+            <p className="text-2xl font-bold text-gray-900">
+              {player.stats.currentStreak} days
+            </p>
           </div>
         </div>
       </motion.div>

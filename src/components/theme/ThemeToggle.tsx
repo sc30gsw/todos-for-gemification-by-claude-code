@@ -15,7 +15,9 @@ export default function ThemeToggle() {
     <div className="relative">
       <select
         value={theme}
-        onChange={(e) => setTheme(e.target.value as 'light' | 'dark' | 'system')}
+        onChange={(e) =>
+          setTheme(e.target.value as 'light' | 'dark' | 'system')
+        }
         className="appearance-none bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
       >
         {themes.map((t) => (

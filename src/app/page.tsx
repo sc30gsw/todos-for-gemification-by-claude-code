@@ -98,7 +98,8 @@ export default function Home() {
     const currentTask = tasks.find((task) => task.id === taskId)
     if (!currentTask) return
 
-    const shouldCompleteTask = newStatus === 'done' && currentTask.status !== 'done'
+    const shouldCompleteTask =
+      newStatus === 'done' && currentTask.status !== 'done'
     let finalPoints = 0
 
     if (shouldCompleteTask) {

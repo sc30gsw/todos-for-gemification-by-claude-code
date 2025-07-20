@@ -1,7 +1,7 @@
 'use client'
 
-import { useDrop } from 'react-dnd'
 import { motion } from 'framer-motion'
+import { useDrop } from 'react-dnd'
 import type { TaskStatus } from '~/types'
 import { ItemTypes } from '../task/DraggableTaskCard'
 
@@ -38,20 +38,27 @@ export default function DroppableColumn({
   })
 
   const isActive = isOver && canDrop
-  const borderColor = isActive 
-    ? 'border-blue-400 border-dashed' 
-    : className.includes('border-') 
+  const borderColor = isActive
+    ? 'border-blue-400 border-dashed'
+    : className.includes('border-')
       ? className.match(/border-\w+-\d+/)?.[0] || 'border-gray-200'
       : 'border-gray-200'
 
   return (
-    <div ref={(node) => { drop(node) }} className="flex flex-col min-h-0">
+    <div
+      ref={(node) => {
+        drop(node)
+      }}
+      className="flex flex-col min-h-0"
+    >
       {/* Column Header */}
       <motion.div
         className={`${className.replace(/border-\w+-\d+/g, '')} ${borderColor} border-2 rounded-t-lg p-3 lg:p-4 flex-shrink-0`}
         animate={{
           scale: isActive ? 1.02 : 1,
-          boxShadow: isActive ? '0 8px 25px rgba(0,0,0,0.15)' : '0 1px 3px rgba(0,0,0,0.1)',
+          boxShadow: isActive
+            ? '0 8px 25px rgba(0,0,0,0.15)'
+            : '0 1px 3px rgba(0,0,0,0.1)',
         }}
         transition={{ duration: 0.2 }}
       >
@@ -64,11 +71,11 @@ export default function DroppableColumn({
               {stats.count}
             </span>
             {stats.points > 0 && (
-              <motion.span 
+              <motion.span
                 className="bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-medium"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                transition={{ type: 'spring', stiffness: 500, damping: 30 }}
               >
                 {stats.points}pt
               </motion.span>
@@ -91,13 +98,15 @@ export default function DroppableColumn({
       <motion.div
         className={`${className.replace(/border-\w+-\d+/g, '')} ${borderColor} border-x-2 border-b-2 rounded-b-lg flex-1 p-3 lg:p-4 overflow-y-auto custom-scrollbar min-h-0`}
         animate={{
-          backgroundColor: isActive ? 'rgba(59, 130, 246, 0.05)' : 'transparent',
+          backgroundColor: isActive
+            ? 'rgba(59, 130, 246, 0.05)'
+            : 'transparent',
         }}
         transition={{ duration: 0.2 }}
       >
         <div className="space-y-3">
           {children}
-          
+
           {isActive && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}

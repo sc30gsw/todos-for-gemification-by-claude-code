@@ -1,8 +1,4 @@
-import type {
-  Player,
-  TaskImportance,
-  TaskStatus,
-} from '~/types'
+import type { Player, TaskImportance, TaskStatus } from '~/types'
 
 export const formatDate = (date: Date): string => {
   return new Intl.DateTimeFormat('en-US', {
@@ -78,10 +74,6 @@ export const generateRandomId = (prefix = '', length = 8): string => {
 export const calculateTaskPoints = (importance: TaskImportance): number => {
   const basePoints = Math.floor(Math.random() * 3) + 1
   const multiplier =
-    importance === 'high'
-      ? 2
-      : importance === 'medium'
-        ? 1.5
-        : 1
+    importance === 'high' ? 2 : importance === 'medium' ? 1.5 : 1
   return Math.floor(basePoints * multiplier)
 }
