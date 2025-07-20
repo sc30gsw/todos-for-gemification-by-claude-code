@@ -1,4 +1,4 @@
-import type { DiceRoll, Player, Task } from '~/types'
+import type { Badge, DiceRoll, Player, Task } from '~/types'
 
 const STORAGE_KEYS = {
   TASKS: 'tasks',
@@ -34,7 +34,7 @@ class StorageManager {
 
   saveTasks(tasks: Task[]): boolean {
     try {
-      const serializedTasks = JSON.stringify(tasks, (key, value) => {
+      const serializedTasks = JSON.stringify(tasks, (_key, value) => {
         if (value instanceof Date) {
           return value.toISOString()
         }
@@ -53,12 +53,30 @@ class StorageManager {
       if (!data) return []
 
       const parsed = JSON.parse(data)
-      return parsed.map((task: any) => ({
-        ...task,
-        createdAt: new Date(task.createdAt),
-        completedAt: task.completedAt ? new Date(task.completedAt) : undefined,
-        dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
-      }))
+      return parsed.map((task: Task) => {
+        const createdAt = new Date(task.createdAt)
+        const completedAt = task.completedAt ? new Date(task.completedAt) : undefined
+        const dueDate = task.dueDate ? new Date(task.dueDate) : undefined
+        
+        // Validate dates
+        if (Number.isNaN(createdAt.getTime())) {
+          console.warn('Invalid createdAt date for task:', task.id)
+          return null
+        }
+        if (completedAt && Number.isNaN(completedAt.getTime())) {
+          console.warn('Invalid completedAt date for task:', task.id)
+        }
+        if (dueDate && Number.isNaN(dueDate.getTime())) {
+          console.warn('Invalid dueDate date for task:', task.id)
+        }
+        
+        return {
+          ...task,
+          createdAt,
+          completedAt: completedAt && !Number.isNaN(completedAt.getTime()) ? completedAt : undefined,
+          dueDate: dueDate && !Number.isNaN(dueDate.getTime()) ? dueDate : undefined,
+        }
+      }).filter(Boolean) as Task[]
     } catch (error) {
       console.error('Error loading tasks:', error)
       return []
@@ -67,7 +85,7 @@ class StorageManager {
 
   savePlayer(player: Player): boolean {
     try {
-      const serializedPlayer = JSON.stringify(player, (key, value) => {
+      const serializedPlayer = JSON.stringify(player, (_key, value) => {
         if (value instanceof Date) {
           return value.toISOString()
         }
@@ -88,14 +106,20 @@ class StorageManager {
       const parsed = JSON.parse(data)
       return {
         ...parsed,
-        badges: parsed.badges.map((badge: any) => ({
-          ...badge,
-          unlockedAt: badge.unlockedAt ? new Date(badge.unlockedAt) : undefined,
-        })),
+        badges: parsed.badges.map((badge: Badge) => {
+          const unlockedAt = badge.unlockedAt ? new Date(badge.unlockedAt) : undefined
+          return {
+            ...badge,
+            unlockedAt: unlockedAt && !Number.isNaN(unlockedAt.getTime()) ? unlockedAt : undefined,
+          }
+        }),
         stats: {
           ...parsed.stats,
           lastCompletionDate: parsed.stats.lastCompletionDate
-            ? new Date(parsed.stats.lastCompletionDate)
+            ? (() => {
+                const date = new Date(parsed.stats.lastCompletionDate)
+                return !Number.isNaN(date.getTime()) ? date : undefined
+              })()
             : undefined,
         },
       }
@@ -107,7 +131,7 @@ class StorageManager {
 
   saveDiceHistory(rolls: DiceRoll[]): boolean {
     try {
-      const serialized = JSON.stringify(rolls, (key, value) => {
+      const serialized = JSON.stringify(rolls, (_key, value) => {
         if (value instanceof Date) {
           return value.toISOString()
         }
@@ -126,10 +150,17 @@ class StorageManager {
       if (!data) return []
 
       const parsed = JSON.parse(data)
-      return parsed.map((roll: any) => ({
-        ...roll,
-        timestamp: new Date(roll.timestamp),
-      }))
+      return parsed.map((roll: DiceRoll) => {
+        const timestamp = new Date(roll.timestamp)
+        if (Number.isNaN(timestamp.getTime())) {
+          console.warn('Invalid timestamp for dice roll')
+          return null
+        }
+        return {
+          ...roll,
+          timestamp,
+        }
+      }).filter(Boolean) as DiceRoll[]
     } catch (error) {
       console.error('Error loading dice history:', error)
       return []

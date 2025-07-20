@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { Task, TaskImportance, TaskStatus, TaskUrgency } from '~/types'
 
-interface TaskFormProps {
+type TaskFormProps = {
   task?: Task
   initialStatus?: TaskStatus
   onSave: (

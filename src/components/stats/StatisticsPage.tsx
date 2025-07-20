@@ -17,12 +17,10 @@ import {
 } from 'recharts'
 import type { Player, Task } from '~/types'
 
-interface StatisticsPageProps {
+type StatisticsPageProps = {
   player: Player
   tasks: Task[]
 }
-
-const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444']
 
 export default function StatisticsPage({ player, tasks }: StatisticsPageProps) {
   // Task status distribution

@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
-interface PointsEffectProps {
+type PointsEffectProps = {
   points: number
   isVisible: boolean
   onComplete?: () => void

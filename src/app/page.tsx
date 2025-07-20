@@ -5,6 +5,7 @@ import KanbanBoard from '~/components/board/KanbanBoard'
 import DnDProvider from '~/components/dnd/DnDProvider'
 import MainLayout from '~/components/layout/MainLayout'
 import TaskForm from '~/components/task/TaskForm'
+import { calculateTaskPoints } from '~/lib/utils'
 import type { Player, Task, TaskStatus } from '~/types'
 
 const mockPlayer: Player = {
@@ -94,42 +95,43 @@ export default function Home() {
   }
 
   const handleTaskStatusChange = (taskId: string, newStatus: TaskStatus) => {
+    const currentTask = tasks.find((task) => task.id === taskId)
+    if (!currentTask) return
+
+    const shouldCompleteTask = newStatus === 'done' && currentTask.status !== 'done'
+    let finalPoints = 0
+
+    if (shouldCompleteTask) {
+      finalPoints = calculateTaskPoints(currentTask.importance)
+    }
+
     setTasks((prev) =>
       prev.map((task) => {
         if (task.id === taskId) {
           const updatedTask = { ...task, status: newStatus }
-
-          if (newStatus === 'done' && task.status !== 'done') {
-            const basePoints = Math.floor(Math.random() * 3) + 1
-            const multiplier =
-              task.importance === 'high'
-                ? 2
-                : task.importance === 'medium'
-                  ? 1.5
-                  : 1
-            const finalPoints = Math.floor(basePoints * multiplier)
-
+          if (shouldCompleteTask) {
             updatedTask.pointsEarned = finalPoints
             updatedTask.completedAt = new Date()
-
-            setPlayer((prev) => ({
-              ...prev,
-              currentPoints: prev.currentPoints + finalPoints,
-              totalPoints: prev.totalPoints + finalPoints,
-              experience: prev.experience + finalPoints * 10,
-              stats: {
-                ...prev.stats,
-                tasksCompleted: prev.stats.tasksCompleted + 1,
-                totalPointsEarned: prev.stats.totalPointsEarned + finalPoints,
-              },
-            }))
           }
-
           return updatedTask
         }
         return task
       }),
     )
+
+    if (shouldCompleteTask) {
+      setPlayer((prev) => ({
+        ...prev,
+        currentPoints: prev.currentPoints + finalPoints,
+        totalPoints: prev.totalPoints + finalPoints,
+        experience: prev.experience + finalPoints * 10,
+        stats: {
+          ...prev.stats,
+          tasksCompleted: prev.stats.tasksCompleted + 1,
+          totalPointsEarned: prev.stats.totalPointsEarned + finalPoints,
+        },
+      }))
+    }
   }
 
   const handleSaveTask = (
@@ -144,7 +146,7 @@ export default function Home() {
     } else {
       const newTask: Task = {
         ...taskData,
-        id: Date.now().toString(),
+        id: crypto.randomUUID(),
         createdAt: new Date(),
         status: newTaskStatus,
       }

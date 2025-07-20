@@ -2,7 +2,7 @@ export type TaskImportance = 'low' | 'medium' | 'high'
 export type TaskUrgency = 'low' | 'medium' | 'high'
 export type TaskStatus = 'todo' | 'in_progress' | 'done'
 
-export interface Task {
+export type Task = {
   id: string
   title: string
   description?: string
@@ -16,7 +16,7 @@ export interface Task {
   pointsEarned?: number
 }
 
-export interface Badge {
+export type Badge = {
   id: string
   name: string
   description: string
@@ -24,7 +24,7 @@ export interface Badge {
   unlockedAt?: Date
 }
 
-export interface PlayerStats {
+export type PlayerStats = {
   tasksCompleted: number
   diceRolls: number
   totalPointsEarned: number
@@ -34,7 +34,7 @@ export interface PlayerStats {
   lastCompletionDate?: Date
 }
 
-export interface Player {
+export type Player = {
   id: string
   name: string
   currentPoints: number
@@ -45,7 +45,7 @@ export interface Player {
   stats: PlayerStats
 }
 
-export interface DiceRoll {
+export type DiceRoll = {
   baseRoll: number
   urgencyBonus: number
   finalResult: number
@@ -54,7 +54,7 @@ export interface DiceRoll {
   experience: number
 }
 
-export interface PointCalculation {
+export type PointCalculation = {
   basePoints: number
   importanceMultiplier: number
   finalPoints: number
@@ -77,7 +77,7 @@ export type SortField =
   | 'title'
 export type SortOrder = 'asc' | 'desc'
 
-export interface TaskSort {
+export type TaskSort = {
   field: SortField
   order: SortOrder
 }

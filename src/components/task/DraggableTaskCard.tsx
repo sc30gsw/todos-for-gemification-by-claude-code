@@ -4,7 +4,7 @@ import { useDrag } from 'react-dnd'
 import type { Task } from '~/types'
 import TaskCard from './TaskCard'
 
-interface DraggableTaskCardProps {
+type DraggableTaskCardProps = {
   task: Task
   onEdit?: (task: Task) => void
   onDelete?: (taskId: string) => void

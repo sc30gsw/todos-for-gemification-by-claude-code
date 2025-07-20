@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
-interface DiceRollAnimationProps {
+type DiceRollAnimationProps = {
   finalResult: number
   isRolling: boolean
   onComplete?: () => void
@@ -23,13 +23,15 @@ export default function DiceRollAnimation({
     if (isRolling) {
       setShowResult(false)
       let counter = 0
+      let timeoutId: NodeJS.Timeout | null = null
+      
       const interval = setInterval(() => {
         setCurrentNumber(Math.floor(Math.random() * 6))
         counter++
         
         if (counter >= 10) {
           clearInterval(interval)
-          setTimeout(() => {
+          timeoutId = setTimeout(() => {
             setCurrentNumber(finalResult - 1)
             setShowResult(true)
             onComplete?.()
@@ -37,7 +39,12 @@ export default function DiceRollAnimation({
         }
       }, 100)
 
-      return () => clearInterval(interval)
+      return () => {
+        clearInterval(interval)
+        if (timeoutId) {
+          clearTimeout(timeoutId)
+        }
+      }
     }
   }, [isRolling, finalResult, onComplete])
 
@@ -70,7 +77,7 @@ export default function DiceRollAnimation({
             }
           }}
         >
-          {diceNumbers[currentNumber]}
+          {diceNumbers[Math.min(Math.max(0, currentNumber), diceNumbers.length - 1)]}
         </motion.div>
         
         {showResult && (

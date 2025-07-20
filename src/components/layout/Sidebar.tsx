@@ -2,7 +2,7 @@
 
 import type { Player } from '~/types'
 
-interface SidebarProps {
+type SidebarProps = {
   player: Player
   onDiceRoll: () => void
   canRollDice: boolean
