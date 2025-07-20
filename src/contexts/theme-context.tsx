@@ -28,7 +28,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!mounted) return
-    
+
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
     setSystemTheme(mediaQuery.matches ? 'dark' : 'light')
 
@@ -46,7 +46,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, [theme, mounted])
 
   const resolvedTheme = theme === 'system' ? systemTheme : theme
-
 
   if (!mounted) {
     return (

@@ -20,9 +20,7 @@ export function RootHtml({ children, className }: RootHtmlProps) {
 
   return (
     <html lang={locale} className={mounted ? resolvedTheme : 'light'}>
-      <body className={className}>
-        {children}
-      </body>
+      <body className={className}>{children}</body>
     </html>
   )
 }

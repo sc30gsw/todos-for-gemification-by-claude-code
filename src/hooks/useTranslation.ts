@@ -15,7 +15,7 @@ export function useTranslation() {
         return id
       }
     },
-    [_]
+    [_],
   )
 
   return {
