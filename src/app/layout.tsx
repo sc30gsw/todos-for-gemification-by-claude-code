@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { AppProvider } from '~/contexts/app-context'
+import { LinguiProvider } from '~/contexts/i18n-context'
 import { ThemeProvider } from '~/contexts/theme-context'
 import './globals.css'
 
@@ -30,9 +31,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider>
-          <AppProvider>{children}</AppProvider>
-        </ThemeProvider>
+        <LinguiProvider>
+          <ThemeProvider>
+            <AppProvider>{children}</AppProvider>
+          </ThemeProvider>
+        </LinguiProvider>
       </body>
     </html>
   )

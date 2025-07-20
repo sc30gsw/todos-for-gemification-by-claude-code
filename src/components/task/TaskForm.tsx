@@ -1,3 +1,6 @@
+import { useLingui } from '@lingui/react'
+import { Trans } from '@lingui/react/macro'
+import { msg } from '@lingui/core/macro'
 import { useEffect, useState } from 'react'
 import type { Task, TaskImportance, TaskStatus, TaskUrgency } from '~/types'
 
@@ -35,6 +38,7 @@ export default function TaskForm({
   onCancel,
   isOpen,
 }: TaskFormProps) {
+  const { _ } = useLingui()
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -124,7 +128,7 @@ export default function TaskForm({
         <div className="p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold text-gray-900">
-              {task ? 'Edit Task' : 'Create New Task'}
+              {task ? <Trans>Edit Task</Trans> : <Trans>Create New Task</Trans>}
             </h2>
             <button
               type="button"
@@ -139,7 +143,7 @@ export default function TaskForm({
             {/* Title */}
             <div>
               <p className="block text-sm font-medium text-zinc-950 mb-1">
-                Title *
+                <Trans>Title *</Trans>
               </p>
               <input
                 type="text"
@@ -148,7 +152,7 @@ export default function TaskForm({
                 className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 ${
                   errors.title ? 'border-red-300' : 'border-gray-300'
                 }`}
-                placeholder="Enter task title..."
+                placeholder={_(msg`Enter task title...`)}
                 maxLength={100}
               />
               {errors.title && (
@@ -273,13 +277,13 @@ export default function TaskForm({
                 onClick={onCancel}
                 className="flex-1 px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors"
               >
-                Cancel
+                <Trans>Cancel</Trans>
               </button>
               <button
                 type="submit"
                 className="flex-1 px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors"
               >
-                {task ? 'Update Task' : 'Create Task'}
+                {task ? <Trans>Update Task</Trans> : <Trans>Create Task</Trans>}
               </button>
             </div>
           </form>

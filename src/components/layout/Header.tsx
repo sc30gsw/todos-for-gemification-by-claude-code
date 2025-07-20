@@ -1,5 +1,7 @@
 'use client'
 
+import { Trans } from '@lingui/react/macro'
+import { LanguageSwitcher } from '~/components/i18n/LanguageSwitcher'
 import { ThemeToggleButton } from '~/components/theme/ThemeToggle'
 
 type HeaderProps = {
@@ -17,21 +19,28 @@ export default function Header({
     <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-4 lg:px-6 py-3 lg:py-4 flex-shrink-0">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <h1 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">📋 TaskQuest</h1>
+          <h1 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">
+            📋 TaskQuest
+          </h1>
         </div>
 
         <div className="flex items-center space-x-3 lg:space-x-6">
+          <LanguageSwitcher />
           <ThemeToggleButton />
-          
+
           <div className="flex items-center space-x-1 lg:space-x-2">
-            <span className="text-xs lg:text-sm text-gray-600 dark:text-gray-300 hidden sm:inline">Points:</span>
+            <span className="text-xs lg:text-sm text-gray-600 dark:text-gray-300 hidden sm:inline">
+              <Trans>Points:</Trans>
+            </span>
             <span className="bg-blue-100 text-blue-800 px-2 lg:px-3 py-1 rounded-full text-xs lg:text-sm font-semibold">
               {currentPoints}
             </span>
           </div>
 
           <div className="flex items-center space-x-1 lg:space-x-2">
-            <span className="text-xs lg:text-sm text-gray-600 dark:text-gray-300 hidden sm:inline">Level:</span>
+            <span className="text-xs lg:text-sm text-gray-600 dark:text-gray-300 hidden sm:inline">
+              <Trans>Level:</Trans>
+            </span>
             <span className="bg-purple-100 text-purple-800 px-2 lg:px-3 py-1 rounded-full text-xs lg:text-sm font-semibold">
               {level}
             </span>

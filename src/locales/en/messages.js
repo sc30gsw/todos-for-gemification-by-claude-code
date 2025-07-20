@@ -1,0 +1,1 @@
+/*eslint-disable*/module.exports={messages:JSON.parse("{\"dEgA5A\":[\"Cancel\"],\"KaNrDu\":[\"Create New Task\"],\"QRF5YW\":[\"Create Task\"],\"ovGRyZ\":[\"Edit Task\"],\"VrNagU\":[\"Level:\"],\"m8PNnZ\":[\"Points:\"],\"G6j/Eo\":[\"Title *\"],\"6yQaU8\":[\"Update Task\"]}")};
