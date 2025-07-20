@@ -1,11 +1,6 @@
 'use client'
 
-import {
-  createContext,
-  type ReactNode,
-  useContext,
-  useReducer,
-} from 'react'
+import { createContext, type ReactNode, useContext, useReducer } from 'react'
 import { calculateTaskPoints } from '~/lib/utils'
 import type { DiceRoll, Player, Task } from '~/types'
 
@@ -91,14 +86,14 @@ function appReducer(state: AppState, action: AppAction): AppState {
 
     case 'COMPLETE_TASK': {
       const { taskId } = action.payload
-      const task = state.tasks.find(t => t.id === taskId)
-      
+      const task = state.tasks.find((t) => t.id === taskId)
+
       if (!task || task.status === 'done') {
         return state
       }
-      
+
       const finalPoints = calculateTaskPoints(task.importance)
-      
+
       const updatedTasks = state.tasks.map((t) =>
         t.id === taskId
           ? {
@@ -120,7 +115,8 @@ function appReducer(state: AppState, action: AppAction): AppState {
           stats: {
             ...state.player.stats,
             tasksCompleted: state.player.stats.tasksCompleted + 1,
-            totalPointsEarned: state.player.stats.totalPointsEarned + finalPoints,
+            totalPointsEarned:
+              state.player.stats.totalPointsEarned + finalPoints,
           },
         },
       }

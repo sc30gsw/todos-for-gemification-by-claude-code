@@ -11,10 +11,10 @@ type DiceRollAnimationProps = {
 
 const diceNumbers = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅']
 
-export default function DiceRollAnimation({ 
-  finalResult, 
-  isRolling, 
-  onComplete 
+export default function DiceRollAnimation({
+  finalResult,
+  isRolling,
+  onComplete,
 }: DiceRollAnimationProps) {
   const [currentNumber, setCurrentNumber] = useState(0)
   const [showResult, setShowResult] = useState(false)
@@ -24,11 +24,11 @@ export default function DiceRollAnimation({
       setShowResult(false)
       let counter = 0
       let timeoutId: NodeJS.Timeout | null = null
-      
+
       const interval = setInterval(() => {
         setCurrentNumber(Math.floor(Math.random() * 6))
         counter++
-        
+
         if (counter >= 10) {
           clearInterval(interval)
           timeoutId = setTimeout(() => {
@@ -68,18 +68,22 @@ export default function DiceRollAnimation({
             rotate: {
               duration: 0.1,
               repeat: isRolling && !showResult ? Infinity : 0,
-              ease: "linear"
+              ease: 'linear',
             },
             scale: {
               duration: 0.1,
               repeat: isRolling && !showResult ? Infinity : 0,
-              repeatType: "reverse"
-            }
+              repeatType: 'reverse',
+            },
           }}
         >
-          {diceNumbers[Math.min(Math.max(0, currentNumber), diceNumbers.length - 1)]}
+          {
+            diceNumbers[
+              Math.min(Math.max(0, currentNumber), diceNumbers.length - 1)
+            ]
+          }
         </motion.div>
-        
+
         {showResult && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -89,9 +93,7 @@ export default function DiceRollAnimation({
             <h3 className="text-2xl font-bold text-gray-900">
               You rolled {finalResult}!
             </h3>
-            <p className="text-gray-800">
-              Earned {finalResult * 5} XP!
-            </p>
+            <p className="text-gray-800">Earned {finalResult * 5} XP!</p>
             <motion.div
               className="text-4xl"
               animate={{ scale: [1, 1.2, 1] }}
@@ -101,7 +103,7 @@ export default function DiceRollAnimation({
             </motion.div>
           </motion.div>
         )}
-        
+
         {!showResult && (
           <motion.p
             className="text-gray-800"

@@ -1,0 +1,289 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2025-07-20 10:05+0900\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: ja\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#. placeholder {0}: player.stats.currentStreak
+#: src/components/stats/StatisticsPage.tsx:312
+msgid "{0} days"
+msgstr "{0}日"
+
+#: src/components/board/DroppableColumn.tsx:68
+msgid "{title}"
+msgstr "{title}"
+
+#: src/components/task/TaskCard.tsx:162
+msgid "← Todo"
+msgstr "← Todo"
+
+#: src/components/board/DroppableColumn.tsx:93
+msgid "+ Add task"
+msgstr "+ タスクを追加"
+
+#. placeholder {0}: player.badges.length - 3
+#: src/components/layout/Sidebar.tsx:132
+msgid "+{0} more badges"
+msgstr "他{0}個のバッジ"
+
+#: src/components/layout/Sidebar.tsx:71
+msgid "🎲 Lucky Dice"
+msgstr "🎲 ラッキーダイス"
+
+#: src/components/layout/Sidebar.tsx:98
+msgid "🏆 Badges"
+msgstr "🏆 バッジ"
+
+#: src/components/stats/StatisticsPage.tsx:92
+msgid "📊 Statistics"
+msgstr "📊 統計"
+
+#: src/components/stats/StatisticsPage.tsx:171
+msgid "Avg Points/Task"
+msgstr "タスク平均ポイント"
+
+#: src/components/task/TaskForm.tsx:277
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: src/components/task/TaskForm.tsx:230
+msgid "Category"
+msgstr "カテゴリ"
+
+#: src/components/layout/Sidebar.tsx:124
+msgid "Complete tasks to unlock!"
+msgstr "タスクを完了してバッジを獲得しよう！"
+
+#: src/components/stats/StatisticsPage.tsx:129
+#: src/components/board/KanbanBoard.tsx:136
+msgid "Completed"
+msgstr "完了"
+
+#: src/components/layout/Sidebar.tsx:77
+msgid "Cost: 5 Points"
+msgstr "コスト: 5ポイント"
+
+#: src/components/task/TaskForm.tsx:134
+msgid "Create New Task"
+msgstr "新しいタスクを作成"
+
+#: src/components/task/TaskForm.tsx:283
+msgid "Create Task"
+msgstr "タスクを作成"
+
+#: src/components/stats/StatisticsPage.tsx:293
+msgid "Current Level"
+msgstr "現在のレベル"
+
+#: src/components/stats/StatisticsPage.tsx:309
+msgid "Current Streak"
+msgstr "現在のストリーク"
+
+#: src/components/task/TaskForm.tsx:169
+msgid "Description"
+msgstr "説明"
+
+#: src/components/stats/StatisticsPage.tsx:300
+#: src/components/layout/Sidebar.tsx:61
+msgid "Dice Rolls"
+msgstr "ダイスロール"
+
+#: src/components/task/TaskCard.tsx:182
+msgid "Done ✓"
+msgstr "完了 ✓"
+
+#: src/components/board/DroppableColumn.tsx:117
+msgid "Drop task here"
+msgstr "ここにタスクをドロップ"
+
+#: src/components/task/TaskForm.tsx:243
+msgid "Due Date"
+msgstr "期限"
+
+#: src/components/task/TaskForm.tsx:237
+msgid "e.g. Work, Personal"
+msgstr "例: 仕事、個人"
+
+#: src/components/task/TaskForm.tsx:134
+msgid "Edit Task"
+msgstr "タスクを編集"
+
+#: src/components/task/TaskForm.tsx:177
+msgid "Enter task description..."
+msgstr "タスクの説明を入力..."
+
+#: src/components/task/TaskForm.tsx:158
+msgid "Enter task title..."
+msgstr "タスクのタイトルを入力..."
+
+#: src/components/layout/Sidebar.tsx:33
+msgid "Experience"
+msgstr "経験値"
+
+#: src/components/stats/StatisticsPage.tsx:72
+msgid "Fri"
+msgstr "金"
+
+#: src/components/task/TaskForm.tsx:205
+#: src/components/task/TaskForm.tsx:221
+#: src/components/stats/StatisticsPage.tsx:60
+msgid "High"
+msgstr "高"
+
+#: src/components/task/TaskForm.tsx:196
+msgid "Importance"
+msgstr "重要度"
+
+#. placeholder {0}: formData.importance
+#: src/components/task/TaskForm.tsx:261
+msgid "Importance: {0}"
+msgstr "重要度: {0}"
+
+#: src/components/task/TaskCard.tsx:172
+#: src/components/board/KanbanBoard.tsx:128
+msgid "In Progress"
+msgstr "進行中"
+
+#: src/components/layout/Header.tsx:42
+msgid "Level:"
+msgstr "レベル:"
+
+#: src/components/task/TaskForm.tsx:203
+#: src/components/task/TaskForm.tsx:219
+#: src/components/stats/StatisticsPage.tsx:50
+msgid "Low"
+msgstr "低"
+
+#: src/components/board/KanbanBoard.tsx:62
+msgid "Manage your tasks and earn points!"
+msgstr "タスクを管理してポイントを稼ごう！"
+
+#: src/components/task/TaskForm.tsx:204
+#: src/components/task/TaskForm.tsx:220
+#: src/components/stats/StatisticsPage.tsx:55
+msgid "Medium"
+msgstr "中"
+
+#: src/components/stats/StatisticsPage.tsx:68
+msgid "Mon"
+msgstr "月"
+
+#: src/components/layout/Sidebar.tsx:90
+msgid "Need 5 Points"
+msgstr "5ポイントが必要"
+
+#: src/components/layout/Sidebar.tsx:122
+msgid "No badges yet"
+msgstr "まだバッジはありません"
+
+#: src/components/board/KanbanBoard.tsx:103
+msgid "No completed tasks yet"
+msgstr "まだ完了したタスクはありません"
+
+#: src/components/board/KanbanBoard.tsx:101
+msgid "No pending tasks"
+msgstr "保留中のタスクはありません"
+
+#: src/components/board/KanbanBoard.tsx:102
+msgid "No tasks in progress"
+msgstr "進行中のタスクはありません"
+
+#: src/components/stats/StatisticsPage.tsx:287
+msgid "Player Progress"
+msgstr "プレイヤーの進捗"
+
+#: src/components/layout/Sidebar.tsx:26
+msgid "Player Stats"
+msgstr "プレイヤー統計"
+
+#: src/components/layout/Header.tsx:33
+msgid "Points:"
+msgstr "ポイント:"
+
+#: src/components/stats/StatisticsPage.tsx:227
+msgid "Priority Distribution"
+msgstr "優先度分布"
+
+#: src/components/task/TaskForm.tsx:257
+msgid "Priority Preview:"
+msgstr "優先度プレビュー:"
+
+#: src/components/layout/Sidebar.tsx:90
+msgid "Roll Dice!"
+msgstr "ダイスを振る！"
+
+#: src/components/stats/StatisticsPage.tsx:73
+msgid "Sat"
+msgstr "土"
+
+#: src/components/stats/StatisticsPage.tsx:74
+msgid "Sun"
+msgstr "日"
+
+#: src/components/board/KanbanBoard.tsx:59
+msgid "Task Board"
+msgstr "タスクボード"
+
+#: src/components/stats/StatisticsPage.tsx:194
+msgid "Task Status"
+msgstr "タスク状態"
+
+#: src/components/layout/Sidebar.tsx:53
+msgid "Tasks Done"
+msgstr "完了タスク"
+
+#: src/components/stats/StatisticsPage.tsx:71
+msgid "Thu"
+msgstr "木"
+
+#: src/components/task/TaskForm.tsx:149
+msgid "Title *"
+msgstr "タイトル *"
+
+#: src/components/stats/StatisticsPage.tsx:150
+#: src/components/board/KanbanBoard.tsx:144
+msgid "Total Points"
+msgstr "総ポイント"
+
+#: src/components/stats/StatisticsPage.tsx:110
+#: src/components/board/KanbanBoard.tsx:120
+msgid "Total Tasks"
+msgstr "総タスク"
+
+#: src/components/stats/StatisticsPage.tsx:95
+msgid "Track your productivity and achievements"
+msgstr "生産性と成果を追跡しよう"
+
+#: src/components/stats/StatisticsPage.tsx:69
+msgid "Tue"
+msgstr "火"
+
+#: src/components/task/TaskForm.tsx:283
+msgid "Update Task"
+msgstr "タスクを更新"
+
+#: src/components/task/TaskForm.tsx:212
+msgid "Urgency"
+msgstr "緊急度"
+
+#. placeholder {0}: formData.urgency
+#: src/components/task/TaskForm.tsx:265
+msgid "Urgency: {0}"
+msgstr "緊急度: {0}"
+
+#: src/components/stats/StatisticsPage.tsx:70
+msgid "Wed"
+msgstr "水"
+
+#: src/components/stats/StatisticsPage.tsx:252
+msgid "Weekly Progress"
+msgstr "週間進捗"

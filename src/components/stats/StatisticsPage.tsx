@@ -1,19 +1,20 @@
 'use client'
 
+import { Trans, useLingui } from '@lingui/react/macro'
 import { motion } from 'framer-motion'
 import {
-  BarChart,
   Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  LineChart,
-  Line,
 } from 'recharts'
 import type { Player, Task } from '~/types'
 
@@ -23,53 +24,76 @@ type StatisticsPageProps = {
 }
 
 export default function StatisticsPage({ player, tasks }: StatisticsPageProps) {
+  const { t } = useLingui()
   // Task status distribution
   const statusData = [
-    { name: 'Todo', value: tasks.filter(t => t.status === 'todo').length, color: '#6B7280' },
-    { name: 'In Progress', value: tasks.filter(t => t.status === 'in_progress').length, color: '#3B82F6' },
-    { name: 'Done', value: tasks.filter(t => t.status === 'done').length, color: '#10B981' },
+    {
+      name: 'Todo',
+      value: tasks.filter((t) => t.status === 'todo').length,
+      color: '#6B7280',
+    },
+    {
+      name: 'In Progress',
+      value: tasks.filter((t) => t.status === 'in_progress').length,
+      color: '#3B82F6',
+    },
+    {
+      name: 'Done',
+      value: tasks.filter((t) => t.status === 'done').length,
+      color: '#10B981',
+    },
   ]
 
   // Priority distribution
   const priorityData = [
-    { 
-      name: 'Low', 
-      importance: tasks.filter(t => t.importance === 'low').length,
-      urgency: tasks.filter(t => t.urgency === 'low').length 
+    {
+      name: t`Low`,
+      importance: tasks.filter((t) => t.importance === 'low').length,
+      urgency: tasks.filter((t) => t.urgency === 'low').length,
     },
-    { 
-      name: 'Medium', 
-      importance: tasks.filter(t => t.importance === 'medium').length,
-      urgency: tasks.filter(t => t.urgency === 'medium').length 
+    {
+      name: t`Medium`,
+      importance: tasks.filter((t) => t.importance === 'medium').length,
+      urgency: tasks.filter((t) => t.urgency === 'medium').length,
     },
-    { 
-      name: 'High', 
-      importance: tasks.filter(t => t.importance === 'high').length,
-      urgency: tasks.filter(t => t.urgency === 'high').length 
+    {
+      name: t`High`,
+      importance: tasks.filter((t) => t.importance === 'high').length,
+      urgency: tasks.filter((t) => t.urgency === 'high').length,
     },
   ]
 
   // Weekly progress (mock data)
   const weeklyData = [
-    { name: 'Mon', tasks: 3, points: 12 },
-    { name: 'Tue', tasks: 5, points: 18 },
-    { name: 'Wed', tasks: 2, points: 8 },
-    { name: 'Thu', tasks: 4, points: 15 },
-    { name: 'Fri', tasks: 6, points: 22 },
-    { name: 'Sat', tasks: 1, points: 4 },
-    { name: 'Sun', tasks: 3, points: 11 },
+    { name: t`Mon`, tasks: 3, points: 12 },
+    { name: t`Tue`, tasks: 5, points: 18 },
+    { name: t`Wed`, tasks: 2, points: 8 },
+    { name: t`Thu`, tasks: 4, points: 15 },
+    { name: t`Fri`, tasks: 6, points: 22 },
+    { name: t`Sat`, tasks: 1, points: 4 },
+    { name: t`Sun`, tasks: 3, points: 11 },
   ]
 
-  const completedTasks = tasks.filter(t => t.status === 'done')
-  const totalPoints = completedTasks.reduce((sum, task) => sum + (task.pointsEarned || 0), 0)
-  const avgPointsPerTask = completedTasks.length > 0 ? (totalPoints / completedTasks.length).toFixed(1) : '0'
+  const completedTasks = tasks.filter((t) => t.status === 'done')
+  const totalPoints = completedTasks.reduce(
+    (sum, task) => sum + (task.pointsEarned || 0),
+    0,
+  )
+  const avgPointsPerTask =
+    completedTasks.length > 0
+      ? (totalPoints / completedTasks.length).toFixed(1)
+      : '0'
 
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">📊 Statistics</h1>
-        <p className="text-gray-800">Track your productivity and achievements</p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <Trans>📊 Statistics</Trans>
+        </h1>
+        <p className="text-gray-800">
+          <Trans>Track your productivity and achievements</Trans>
+        </p>
       </div>
 
       {/* Key Metrics */}
@@ -82,7 +106,9 @@ export default function StatisticsPage({ player, tasks }: StatisticsPageProps) {
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-800">Total Tasks</p>
+              <p className="text-sm text-gray-800">
+                <Trans>Total Tasks</Trans>
+              </p>
               <p className="text-2xl font-bold text-gray-900">{tasks.length}</p>
             </div>
             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -99,8 +125,12 @@ export default function StatisticsPage({ player, tasks }: StatisticsPageProps) {
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-800">Completed</p>
-              <p className="text-2xl font-bold text-green-600">{completedTasks.length}</p>
+              <p className="text-sm text-gray-800">
+                <Trans>Completed</Trans>
+              </p>
+              <p className="text-2xl font-bold text-green-600">
+                {completedTasks.length}
+              </p>
             </div>
             <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
               <span className="text-2xl">✅</span>
@@ -116,8 +146,12 @@ export default function StatisticsPage({ player, tasks }: StatisticsPageProps) {
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-800">Total Points</p>
-              <p className="text-2xl font-bold text-purple-600">{totalPoints}</p>
+              <p className="text-sm text-gray-800">
+                <Trans>Total Points</Trans>
+              </p>
+              <p className="text-2xl font-bold text-purple-600">
+                {totalPoints}
+              </p>
             </div>
             <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
               <span className="text-2xl">⭐</span>
@@ -133,8 +167,12 @@ export default function StatisticsPage({ player, tasks }: StatisticsPageProps) {
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-800">Avg Points/Task</p>
-              <p className="text-2xl font-bold text-orange-600">{avgPointsPerTask}</p>
+              <p className="text-sm text-gray-800">
+                <Trans>Avg Points/Task</Trans>
+              </p>
+              <p className="text-2xl font-bold text-orange-600">
+                {avgPointsPerTask}
+              </p>
             </div>
             <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
               <span className="text-2xl">🎯</span>
@@ -152,7 +190,9 @@ export default function StatisticsPage({ player, tasks }: StatisticsPageProps) {
           transition={{ delay: 0.5 }}
           className="bg-white p-6 rounded-xl shadow-sm border border-gray-200"
         >
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Task Status</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            <Trans>Task Status</Trans>
+          </h3>
           <ResponsiveContainer width="100%" height={250}>
             <PieChart>
               <Pie
@@ -164,8 +204,11 @@ export default function StatisticsPage({ player, tasks }: StatisticsPageProps) {
                 paddingAngle={5}
                 dataKey="value"
               >
-                {statusData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
+                {statusData.map((entry) => (
+                  <Cell
+                    key={`cell-${crypto.randomUUID()}`}
+                    fill={entry.color}
+                  />
                 ))}
               </Pie>
               <Tooltip />
@@ -180,7 +223,9 @@ export default function StatisticsPage({ player, tasks }: StatisticsPageProps) {
           transition={{ delay: 0.6 }}
           className="bg-white p-6 rounded-xl shadow-sm border border-gray-200"
         >
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Priority Distribution</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            <Trans>Priority Distribution</Trans>
+          </h3>
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={priorityData}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -203,24 +248,26 @@ export default function StatisticsPage({ player, tasks }: StatisticsPageProps) {
           transition={{ delay: 0.7 }}
           className="bg-white p-6 rounded-xl shadow-sm border border-gray-200"
         >
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Weekly Progress</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            <Trans>Weekly Progress</Trans>
+          </h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={weeklyData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
-              <Line 
-                type="monotone" 
-                dataKey="tasks" 
-                stroke="#3B82F6" 
+              <Line
+                type="monotone"
+                dataKey="tasks"
+                stroke="#3B82F6"
                 strokeWidth={2}
                 name="Tasks Completed"
               />
-              <Line 
-                type="monotone" 
-                dataKey="points" 
-                stroke="#10B981" 
+              <Line
+                type="monotone"
+                dataKey="points"
+                stroke="#10B981"
                 strokeWidth={2}
                 name="Points Earned"
               />
@@ -236,22 +283,34 @@ export default function StatisticsPage({ player, tasks }: StatisticsPageProps) {
         transition={{ delay: 0.8 }}
         className="bg-white p-6 rounded-xl shadow-sm border border-gray-200"
       >
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Player Progress</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          <Trans>Player Progress</Trans>
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center">
             <div className="text-3xl mb-2">🏆</div>
-            <p className="text-sm text-gray-800">Current Level</p>
+            <p className="text-sm text-gray-800">
+              <Trans>Current Level</Trans>
+            </p>
             <p className="text-2xl font-bold text-gray-900">{player.level}</p>
           </div>
           <div className="text-center">
             <div className="text-3xl mb-2">🎲</div>
-            <p className="text-sm text-gray-800">Dice Rolls</p>
-            <p className="text-2xl font-bold text-gray-900">{player.stats.diceRolls}</p>
+            <p className="text-sm text-gray-800">
+              <Trans>Dice Rolls</Trans>
+            </p>
+            <p className="text-2xl font-bold text-gray-900">
+              {player.stats.diceRolls}
+            </p>
           </div>
           <div className="text-center">
             <div className="text-3xl mb-2">🔥</div>
-            <p className="text-sm text-gray-800">Current Streak</p>
-            <p className="text-2xl font-bold text-gray-900">{player.stats.currentStreak} days</p>
+            <p className="text-sm text-gray-800">
+              <Trans>Current Streak</Trans>
+            </p>
+            <p className="text-2xl font-bold text-gray-900">
+              <Trans>{player.stats.currentStreak} days</Trans>
+            </p>
           </div>
         </div>
       </motion.div>

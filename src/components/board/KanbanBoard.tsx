@@ -1,4 +1,6 @@
+import { Trans } from '@lingui/react/macro'
 import DraggableTaskCard from '~/components/task/DraggableTaskCard'
+import { useTheme } from '~/contexts/theme-context'
 import type { Task, TaskStatus } from '~/types'
 import DroppableColumn from './DroppableColumn'
 
@@ -38,6 +40,9 @@ export default function KanbanBoard({
   onTaskStatusChange,
   onAddTask,
 }: KanbanBoardProps) {
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
+
   const getTasksByStatus = (status: TaskStatus) => {
     return tasks.filter((task) => task.status === status)
   }
@@ -54,8 +59,16 @@ export default function KanbanBoard({
   return (
     <div className="h-full flex flex-col">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Task Board</h2>
-        <p className="text-gray-800">Manage your tasks and earn points!</p>
+        <h2
+          className={`text-2xl font-bold mb-2 ${
+            isDark ? 'text-white' : 'text-zinc-900'
+          }`}
+        >
+          <Trans>Task Board</Trans>
+        </h2>
+        <p className={isDark ? 'text-gray-300' : 'text-zinc-700'}>
+          <Trans>Manage your tasks and earn points!</Trans>
+        </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6 flex-1 min-h-0">
@@ -63,11 +76,28 @@ export default function KanbanBoard({
           const columnTasks = getTasksByStatus(column.id)
           const stats = getColumnStats(column.id)
 
+          // テーマに応じて背景色とボーダー色を決定
+          const columnBgColor = isDark
+            ? column.id === 'todo'
+              ? 'bg-gray-800'
+              : column.id === 'in_progress'
+                ? 'bg-blue-900/20'
+                : 'bg-green-900/20'
+            : column.bgColor
+
+          const columnBorderColor = isDark
+            ? column.id === 'todo'
+              ? 'border-gray-700'
+              : column.id === 'in_progress'
+                ? 'border-blue-700'
+                : 'border-green-700'
+            : column.borderColor
+
           return (
             <DroppableColumn
               key={column.id}
               status={column.id}
-              className={`${column.bgColor} ${column.borderColor}`}
+              className={`${columnBgColor} ${columnBorderColor}`}
               title={column.title}
               stats={stats}
               onAddTask={onAddTask}
@@ -92,10 +122,18 @@ export default function KanbanBoard({
                         ? '🔄'
                         : '🎉'}
                   </div>
-                  <p className="text-gray-700 text-xs lg:text-sm">
-                    {column.id === 'todo' && 'No pending tasks'}
-                    {column.id === 'in_progress' && 'No tasks in progress'}
-                    {column.id === 'done' && 'No completed tasks yet'}
+                  <p
+                    className={`text-xs lg:text-sm ${
+                      isDark ? 'text-gray-300' : 'text-zinc-600'
+                    }`}
+                  >
+                    {column.id === 'todo' && <Trans>No pending tasks</Trans>}
+                    {column.id === 'in_progress' && (
+                      <Trans>No tasks in progress</Trans>
+                    )}
+                    {column.id === 'done' && (
+                      <Trans>No completed tasks yet</Trans>
+                    )}
                   </p>
                 </div>
               )}
@@ -105,31 +143,91 @@ export default function KanbanBoard({
       </div>
 
       {/* Board Summary */}
-      <div className="mt-4 lg:mt-6 bg-white rounded-lg p-3 lg:p-4 shadow-sm flex-shrink-0">
+      <div
+        className={`mt-4 lg:mt-6 rounded-lg p-3 lg:p-4 shadow-sm flex-shrink-0 ${
+          isDark ? 'bg-gray-800' : 'bg-white'
+        }`}
+      >
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 text-center">
-          <div className="p-2 lg:p-3 bg-gray-50 rounded-lg">
-            <div className="text-lg lg:text-2xl font-bold text-gray-900">
+          <div
+            className={`p-2 lg:p-3 rounded-lg ${
+              isDark ? 'bg-gray-700' : 'bg-gray-50'
+            }`}
+          >
+            <div
+              className={`text-lg lg:text-2xl font-bold ${
+                isDark ? 'text-white' : 'text-zinc-900'
+              }`}
+            >
               {tasks.length}
             </div>
-            <div className="text-xs lg:text-sm text-gray-800">Total Tasks</div>
+            <div
+              className={`text-xs lg:text-sm ${
+                isDark ? 'text-gray-200' : 'text-zinc-700'
+              }`}
+            >
+              <Trans>Total Tasks</Trans>
+            </div>
           </div>
-          <div className="p-2 lg:p-3 bg-blue-50 rounded-lg">
-            <div className="text-lg lg:text-2xl font-bold text-blue-700">
+          <div
+            className={`p-2 lg:p-3 rounded-lg ${
+              isDark ? 'bg-blue-900/20' : 'bg-blue-50'
+            }`}
+          >
+            <div
+              className={`text-lg lg:text-2xl font-bold ${
+                isDark ? 'text-blue-300' : 'text-blue-700'
+              }`}
+            >
               {getColumnStats('in_progress').count}
             </div>
-            <div className="text-xs lg:text-sm text-gray-800">In Progress</div>
+            <div
+              className={`text-xs lg:text-sm ${
+                isDark ? 'text-gray-200' : 'text-zinc-700'
+              }`}
+            >
+              <Trans>In Progress</Trans>
+            </div>
           </div>
-          <div className="p-2 lg:p-3 bg-green-50 rounded-lg">
-            <div className="text-lg lg:text-2xl font-bold text-green-700">
+          <div
+            className={`p-2 lg:p-3 rounded-lg ${
+              isDark ? 'bg-green-900/20' : 'bg-green-50'
+            }`}
+          >
+            <div
+              className={`text-lg lg:text-2xl font-bold ${
+                isDark ? 'text-green-300' : 'text-green-700'
+              }`}
+            >
               {getColumnStats('done').count}
             </div>
-            <div className="text-xs lg:text-sm text-gray-800">Completed</div>
+            <div
+              className={`text-xs lg:text-sm ${
+                isDark ? 'text-gray-200' : 'text-zinc-700'
+              }`}
+            >
+              <Trans>Completed</Trans>
+            </div>
           </div>
-          <div className="p-2 lg:p-3 bg-purple-50 rounded-lg">
-            <div className="text-lg lg:text-2xl font-bold text-purple-700">
+          <div
+            className={`p-2 lg:p-3 rounded-lg ${
+              isDark ? 'bg-purple-900/20' : 'bg-purple-50'
+            }`}
+          >
+            <div
+              className={`text-lg lg:text-2xl font-bold ${
+                isDark ? 'text-purple-300' : 'text-purple-700'
+              }`}
+            >
               {tasks.reduce((sum, task) => sum + (task.pointsEarned || 0), 0)}
             </div>
-            <div className="text-xs lg:text-sm text-gray-800">Total Points</div>
+            <div
+              className={`text-xs lg:text-sm ${
+                isDark ? 'text-gray-200' : 'text-zinc-700'
+              }`}
+            >
+              <Trans>Total Points</Trans>
+            </div>
           </div>
         </div>
       </div>

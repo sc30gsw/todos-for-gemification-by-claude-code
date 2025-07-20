@@ -13,9 +13,14 @@
     "tsc": "tsc --noEmit",
     "lint": "biome lint --write ./src",
     "format": "biome format --write ./src",
-    "check": "biome check --write ./src"
+    "check": "biome check --write ./src",
+    "lingui:extract": "lingui extract",
+    "lingui:compile": "lingui compile"
   },
   "dependencies": {
+    "@lingui/core": "^5.3.3",
+    "@lingui/detect-locale": "^5.3.3",
+    "@lingui/react": "^5.3.3",
     "framer-motion": "^12.18.1",
     "next": "15.3.4",
     "react": "^19.0.0",
@@ -26,6 +31,9 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.0.0",
+    "@lingui/cli": "^5.3.3",
+    "@lingui/format-po": "^5.3.3",
+    "@lingui/swc-plugin": "^5.5.2",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
