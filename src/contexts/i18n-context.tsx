@@ -17,7 +17,13 @@ import {
   type Locale,
   locales,
 } from '~/lib/i18n'
+import type {
+  I18nContextValue,
+  I18nError,
+  LocaleSwitchState,
+} from '~/types/i18n'
 
+// Keep legacy type for backward compatibility
 interface I18nContextType {
   locale: Locale
   setLocale: (locale: Locale) => Promise<void>
@@ -44,23 +50,47 @@ export function LinguiProvider({ children, initialLocale }: I18nProviderProps) {
     initialLocale || defaultLocale,
   )
   const [isInitialized, setIsInitialized] = useState(false)
+  const [switchState, setSwitchState] = useState<LocaleSwitchState>('idle')
+  const [error, setError] = useState<I18nError | null>(null)
 
   const setLocale = useCallback(async (newLocale: Locale) => {
+    setSwitchState('loading')
+    setError(null)
+
     try {
       if (locales.includes(newLocale)) {
         await activateLocale(newLocale)
         setLocaleState(newLocale)
+        setSwitchState('success')
       } else {
         console.warn(
           `Unsupported locale: ${newLocale}. Falling back to ${defaultLocale}.`,
         )
         await activateLocale(defaultLocale)
         setLocaleState(defaultLocale)
+        setSwitchState('success')
       }
     } catch (error) {
       console.error(`Failed to set locale to ${newLocale}:`, error)
-      await activateLocale(defaultLocale)
-      setLocaleState(defaultLocale)
+      const i18nError: I18nError = {
+        key: 'locale.switch.failed',
+        locale: newLocale,
+        error: error instanceof Error ? error : new Error(String(error)),
+        timestamp: new Date(),
+        severity: 'error',
+        type: 'locale_load_failure',
+        retryCount: 0,
+      }
+      setError(i18nError)
+      setSwitchState('error')
+
+      // Still try to fallback to default locale
+      try {
+        await activateLocale(defaultLocale)
+        setLocaleState(defaultLocale)
+      } catch (fallbackError) {
+        console.error('Failed to fallback to default locale:', fallbackError)
+      }
     }
   }, [])
 
@@ -86,7 +116,10 @@ export function LinguiProvider({ children, initialLocale }: I18nProviderProps) {
     locale,
     setLocale,
     locales,
-  } as const satisfies I18nContextType
+    isLoading: switchState === 'loading',
+    error,
+    switchState,
+  } as const satisfies I18nContextType & Partial<I18nContextValue>
 
   if (!isInitialized) {
     return (

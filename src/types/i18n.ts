@@ -17,6 +17,8 @@ export type TranslationError = {
   readonly locale: Locale
   readonly error: Error
   readonly fallback?: string
+  readonly timestamp: Date
+  readonly severity: 'warning' | 'error' | 'critical'
 }
 
 export type I18nConfig = {
@@ -24,6 +26,8 @@ export type I18nConfig = {
   readonly supportedLocales: readonly Locale[]
   readonly fallbackLocale?: Locale
   readonly enableDebug?: boolean
+  readonly loadingTimeout?: number
+  readonly retryAttempts?: number
 }
 
 // Type-safe translation keys
@@ -53,3 +57,38 @@ export type FlatTranslationKey =
   | TranslationKeyPath['TASK'][keyof TranslationKeyPath['TASK']]
   | TranslationKeyPath['PLAYER'][keyof TranslationKeyPath['PLAYER']]
   | TranslationKeyPath['COMMON'][keyof TranslationKeyPath['COMMON']]
+
+// Enhanced error types for better debugging
+export type LocaleLoadError = TranslationError & {
+  readonly type: 'locale_load_failure'
+  readonly retryCount: number
+}
+
+export type TranslationMissingError = TranslationError & {
+  readonly type: 'translation_missing'
+  readonly requestedKey: string
+}
+
+export type I18nContextError = TranslationError & {
+  readonly type: 'context_error'
+  readonly component?: string
+}
+
+// Union type for all i18n errors
+export type I18nError =
+  | LocaleLoadError
+  | TranslationMissingError
+  | I18nContextError
+
+// Type for locale switching states
+export type LocaleSwitchState = 'idle' | 'loading' | 'success' | 'error'
+
+// Enhanced context type
+export interface I18nContextValue {
+  readonly locale: Locale
+  readonly setLocale: (locale: Locale) => Promise<void>
+  readonly locales: readonly Locale[]
+  readonly isLoading: boolean
+  readonly error: I18nError | null
+  readonly switchState: LocaleSwitchState
+}
